@@ -30,4 +30,4 @@ node_modules
 jspm_packages
 typings
 dist/app.js
-src_server/uploads
+src_server/uploads/*.*
