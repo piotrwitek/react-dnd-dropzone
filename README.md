@@ -2,7 +2,7 @@
 React File Dropzone with Drag & Drop Preview - various libraries implementation examples comparison
 
 ## Features
-- React with ES2015 / TypeScript 
+- React with ES2015 / TypeScript
 - Koa.js framework server for file uploads
 - JSPM 0.17.X with hot-module reload enabled and example code (chokidar-socket-emitter/systemjs-hot-reloader)
 - bundling for production in `~/dist/` folder - test productions available on `http://localhost/dist/`
@@ -11,9 +11,11 @@ React File Dropzone with Drag & Drop Preview - various libraries implementation 
 
 ---
 
-## Examples 
+## Examples
+- React Dropzone integration - https://github.com/felixrieseberg/React-Dropzone-Component
 - Dragula integration - https://github.com/bevacqua/dragula
-- Sortable integration - http://rubaxa.github.io/Sortable/
+- Sortable integration - https://github.com/RubaXa/Sortable
+
 
 ---
 
@@ -27,9 +29,9 @@ React File Dropzone with Drag & Drop Preview - various libraries implementation 
 `npm run server` - start local development server (browser-sync - w/o hot-reload)
 
 `npm run hot-reloader` - start hot-reloader (chokidar-socket-emitter)
-    
+
 `npm run build-test` - build production bundle - debug version with source-maps
-    
+
 `npm run build-prod` - build production bundle - optimized minified version w/o source-maps
 
 ---
@@ -39,7 +41,7 @@ React File Dropzone with Drag & Drop Preview - various libraries implementation 
 #### Prerequisites
 - node.js and git
 - install jspm package globally to have jspm command available: `npm install jspm -g` (otherwise you would have to use a local version from `~/node_modules/`)
-    
+
 
 #### 1. Create new project folder
     mkdir my-project && cd my-project
