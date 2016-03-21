@@ -1,5 +1,5 @@
 # React Drag & Drop Dropzone (ES2015 / TypeScript)
-React File Dropzone with Drag & Drop Preview - various libraries implementation examples comparison
+React Image-Dropzone Component with Drag & Drop Preview
 
 ## Features
 - React with ES2015 / TypeScript
@@ -8,6 +8,7 @@ React File Dropzone with Drag & Drop Preview - various libraries implementation 
 - bundling for production in `~/dist/` folder - test productions available on `http://localhost/dist/`
 - importing and bundling CSS dependencies using JSPM `plugin-css`
 - npm run scripts to automate bundling & dev server startup
+- various drag & drop libraries integration examples
 
 ---
 
@@ -15,7 +16,6 @@ React File Dropzone with Drag & Drop Preview - various libraries implementation 
 - React Dropzone integration - https://github.com/felixrieseberg/React-Dropzone-Component
 - Dragula integration - https://github.com/bevacqua/dragula
 - Sortable integration - https://github.com/RubaXa/Sortable
-
 
 ---
 
