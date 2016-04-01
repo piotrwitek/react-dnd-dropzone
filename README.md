@@ -1,5 +1,5 @@
 # Drag & Drop Image Dropzone - React Component
-Image-Dropzone Component with Drag & Drop Preview - React / ES2015 / TypeScript
+Image Dropzone with Drag & Drop Management Panel - React / ES2015 / TypeScript
 
 ## Features
 - React with ES2015 / TypeScript
