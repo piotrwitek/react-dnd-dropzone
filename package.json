@@ -17,8 +17,7 @@
     "build-test": "./node_modules/.bin/jspm build src/app dist/app.js",
     "build-prod": "./node_modules/.bin/jspm build src/app dist/app.js --minify --skip-source-maps"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "chokidar-socket-emitter": "^0.5.1",
     "co-busboy": "^1.3.1",
@@ -31,11 +30,12 @@
   "jspm": {
     "name": "app",
     "dependencies": {
-      "react": "npm:react@^0.14.7",
-      "react-dom": "npm:react-dom@^0.14.7",
+      "react": "npm:react@^15.0.1",
+      "react-dom": "npm:react-dom@^15.0.1",
       "react-dragula": "npm:react-dragula@^1.1.15",
       "react-dropzone-component": "npm:react-dropzone-component@^1.0.0",
-      "sortablejs": "npm:sortablejs@^1.4.2"
+      "sortablejs": "npm:sortablejs@^1.4.2",
+      "whatwg-fetch": "npm:whatwg-fetch@^0.11.0"
     },
     "devDependencies": {
       "css": "github:systemjs/plugin-css@^0.1.20",
@@ -47,6 +47,8 @@
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
       "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
       "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
+      "core-js": "npm:core-js@^1.2.0",
+      "domain": "github:jspm/nodelibs-domain@^0.2.0-alpha",
       "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
       "http": "github:jspm/nodelibs-http@^0.2.0-alpha",
@@ -57,42 +59,33 @@
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
+      "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
       "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
       "url": "github:jspm/nodelibs-url@^0.2.0-alpha",
-      "util": "github:jspm/nodelibs-util@^0.2.0-alpha"
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha",
+      "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
-      "npm:fbjs@0.6.1": {
-        "dependencies": {}
+      "npm:babel-runtime@5.8.38": {
+        "main": false,
+        "dependencies": {},
+        "optionalDependencies": {
+          "core-js": "^1.2.0"
+        }
+      },
+      "npm:browserify-zlib@0.1.4": {
+        "dependencies": {
+          "readable-stream": "^2.0.2",
+          "pako": "~0.2.0"
+        },
+        "map": {
+          "_stream_transform": "readable-stream/transform"
+        }
       },
       "npm:inherits@2.0.1": {
         "ignore": [
           "test.js"
         ]
-      },
-      "npm:react@0.14.7": {
-        "dependencies": {
-          "fbjs": "^0.6.1"
-        },
-        "format": "cjs",
-        "meta": {
-          "*": {
-            "globals": {
-              "process": "process"
-            }
-          }
-        },
-        "map": {
-          "fbjs/lib/ExecutionEnvironment.js": {
-            "production": "@empty"
-          },
-          "./lib/ReactDefaultPerf.js": {
-            "production": "@empty"
-          },
-          "./lib/ReactTestUtils.js": {
-            "production": "@empty"
-          }
-        }
       },
       "npm:typescript@1.8.9": {
         "browser": {},
@@ -105,7 +98,10 @@
           "process": "@empty",
           "readline": "@empty"
         }
+      },
+      "npm:whatwg-fetch@0.11.0": {
+        "jspmNodeConversion": false
       }
     }
   }
-}
+}
