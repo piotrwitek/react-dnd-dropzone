@@ -5,16 +5,15 @@ import Sortable from 'sortablejs';
 
 
 interface IProps extends React.Props<SortableExampleEsnext> {
-  date?: Date;
+  data?: any;
 }
 
 interface IState {
 }
 
 export class SortableExampleEsnext extends React.Component<IProps, IState> {
-  date: Date;
-  asd: any;
   state: IState = {};
+  data = [];
 
   sortableContainersDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
@@ -44,42 +43,34 @@ export class SortableExampleEsnext extends React.Component<IProps, IState> {
     }
   };
 
-  constructor() {
-    super();
-    this.date = new Date();
-    this.asd = "start";
+  groupItem = (item) => (
+    <div>{item}</div>
+  );
+
+  renderItems(groupItems) {
+    return (
+      <div className="group-list" ref={this.sortableGroupDecorator}>
+        { groupItems.map((item) => this.groupItem(item)) }
+      </div>
+    );
+  }
+
+  group = (group) => (
+    <div className="group">
+      <h2 className="group-title">{group}</h2>
+      { this.renderItems(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']) }
+    </div>
+  );
+
+
+  renderGroups(groups) {
+    return groups.map((item) => this.group(item));
   }
 
   render(): JSX.Element {
     return (
       <div className="container" ref={this.sortableContainersDecorator}>
-        <div className="group">
-          <h2 className="group-title">Group 1</h2>
-          <div className="group-list" ref={this.sortableGroupDecorator}>
-            <div>as me around</div>
-            <div>sss her around</div>
-            <div>Swap him around</div>
-            <div>Swap them around</div>
-            <div>Swap us around</div>
-            <div>Swap things around</div>
-            <div>Swap everything around</div>
-          </div>
-        </div>
-        <div className="group">
-          <h2 className="group-title">Group 2</h2>
-          <div className="group-list" ref={this.sortableGroupDecorator}>
-            <div>aa me around</div>
-            <div>Swap her around</div>
-            <div>Swap him around</div>
-            <div>Swap them around</div>
-            <div>Swap us around</div>
-            <div>Swap things around</div>
-            <div>Swap everything around</div>
-          </div>
-        </div>
-        <div>
-          It is {this.date.toLocaleTimeString() }
-        </div>
+        { this.renderGroups(['Group 1', 'Group 2', "Group 3"]) }
       </div>
     );
   }
