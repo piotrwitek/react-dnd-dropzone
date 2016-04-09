@@ -54,9 +54,6 @@ export class App extends React.Component<AppProps, AppState> {
     this.state = { test: false };
   }
 
-  // componentDidMount() {
-  // }
-
   render() {
     return (
       <div>

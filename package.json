@@ -8,25 +8,24 @@
   "homepage": "https://github.com/piotrwitek/react-dnd-dropzone",
   "bugs": "https://github.com/piotrwitek/react-dnd-dropzone/issues",
   "scripts": {
-    "start": "start npm run server && start npm run hot-reloading",
+    "start": "start npm run server && start npm run hot-reloader",
     "server": "node ./src_server/server.js",
-    "hot-reloading": "node ./node_modules/chokidar-socket-emitter/cli.js",
-    "postinstall": "npm run install-jspm && npm run install-typings && npm run postinstall-message",
+    "hot-reloader": "node ./node_modules/chokidar-socket-emitter/cli.js --port 35729",
+    "postinstall": "npm run install-jspm && npm run install-typings",
     "install-jspm": "./node_modules/.bin/jspm install",
     "install-typings": "./node_modules/.bin/typings install",
-    "postinstall-message": "echo type \"npm start\" to run developer server and open app in the browser",
     "build-test": "./node_modules/.bin/jspm build src/app dist/app.js",
     "build-prod": "./node_modules/.bin/jspm build src/app dist/app.js --minify --skip-source-maps"
   },
   "dependencies": {
-    "co-busboy": "^1.3.1",
-    "koa": "^1.2.0",
-    "koa-logger": "^1.3.0",
-    "koa-static": "^2.0.0"
   },
   "devDependencies": {
     "chokidar-socket-emitter": "^0.5.0",
+    "co-busboy": "^1.3.1",
     "jspm": "^0.17.0-beta.11",
+    "koa": "^1.2.0",
+    "koa-logger": "^1.3.0",
+    "koa-static": "^2.0.0",
     "typings": "^0.7.8"
   },
   "jspm": {
