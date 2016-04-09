@@ -17,7 +17,6 @@ export class SortableExampleEsnext extends React.Component<IProps, IState> {
   state: IState = {};
 
   sortableContainersDecorator = (componentBackingInstance) => {
-    console.log(componentBackingInstance);
     if (componentBackingInstance) {
       let options = {
         animation: 150, // ms, animation speed moving items when sorting, `0` — without animation
