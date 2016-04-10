@@ -13,6 +13,37 @@ import * as ReactDOM from 'react-dom';
 // components imports
 import {DragulaExampleEsnext} from './components/dragula-example-esnext';
 import {SortableExampleEsnext} from './components/sortable-example-esnext';
+import {ImageUploadPanel} from './components/image-upload-panel';
+
+// type ProjectGalleryData = {
+//   roomsList: [
+//     {
+//       name: string;
+//       type: number;
+//       images: string[]
+//     }
+//   ]
+// }
+
+var galleryData = [
+  {
+    name: 'Salon',
+    type: 0,
+    items: [
+      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png',
+      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png'
+    ]
+  },
+  {
+    name: 'Pokój 1',
+    type: 0,
+    items: [
+      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png'
+    ]
+  }
+];
+
+var logAppData = () => { console.log('app store data:', galleryData) };
 
 interface AppState {
 }
@@ -28,7 +59,7 @@ export class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <SortableExampleEsnext />
+        <ImageUploadPanel inputData={galleryData} logger={logAppData} />
       </div>
     );
   }

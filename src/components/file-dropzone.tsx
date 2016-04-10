@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOMServer from 'react-dom/server';
-import Sortable from 'sortablejs';
 import Dropzone from 'dropzone';
 Dropzone.autoDiscover = false;
 // import DropzoneComponent from 'react-dropzone-component';
@@ -23,11 +22,31 @@ let template = ReactDOMServer.renderToStaticMarkup(
 );
 
 var componentConfig = {
-  iconFiletypes: ['.jpg', '.png', '.gif'],
-  showFiletypeIcon: true,
-  postUrl: 'http://localhost:3000/uploadHandler'
+  iconFiletypes: ['.jpg', '.png', '.gif']
 };
 
-var djsConfig = {
-  previewTemplate: template
-};
+interface IProps extends React.Props<FileDropzone> {
+  data?: any;
+}
+interface IState {
+}
+
+export class FileDropzone extends React.Component<IProps, IState> {
+  imageDropzone = undefined;
+
+  dropzoneConstructor = (componentBackingInstance) => {
+    if (componentBackingInstance) {
+      let options = {
+        url: 'http://localhost:3000/uploadHandler'
+      };
+      this.imageDropzone = new Dropzone(componentBackingInstance, options);
+    }
+  };
+
+  render() {
+    return (
+      <div className="file-dropzone" ref={this.dropzoneConstructor}></div>
+    );
+  }
+
+}

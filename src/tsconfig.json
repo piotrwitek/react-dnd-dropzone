@@ -23,6 +23,8 @@
     "../typings/main.d.ts",
     "typings.d.ts",
     "app.tsx",
+    "components/draggable-container.tsx",
+    "components/draggable-item.tsx",
     "components/dragula-example-esnext.tsx",
     "components/file-dropzone.tsx",
     "components/image-upload-panel.tsx",
@@ -30,7 +32,7 @@
   ],
   "atom": {
     "rewriteTsconfig": true,
-    "formatOnSave": true
+    "formatOnSave": false
   },
   "formatCodeOptions": {
     "indentSize": 2,
