@@ -1,4 +1,4 @@
-import './sortable-example-esnext.css!';
+import './image-upload-panel.css!';
 
 import * as React from "react";
 import * as ReactDOMServer from 'react-dom/server';

@@ -21,8 +21,11 @@
   ],
   "files": [
     "../typings/main.d.ts",
+    "typings.d.ts",
     "app.tsx",
     "components/dragula-example-esnext.tsx",
+    "components/file-dropzone.tsx",
+    "components/image-upload-panel.tsx",
     "components/sortable-example-esnext.tsx"
   ],
   "atom": {

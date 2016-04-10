@@ -38,3 +38,7 @@
 .group-list {
     margin-top: 10px;
 }
+
+.dz-complete.dz-image-preview * {
+  cursor: move !important;
+}

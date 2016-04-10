@@ -35,6 +35,7 @@ SystemJS.config({
     "core-js": "npm:core-js@1.2.6",
     "css": "github:systemjs/plugin-css@0.1.20",
     "domain": "github:jspm/nodelibs-domain@0.2.0-alpha",
+    "dropzone": "github:enyo/dropzone@4.3.0",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
     "http": "github:jspm/nodelibs-http@0.2.0-alpha",
@@ -48,7 +49,6 @@ SystemJS.config({
     "react": "npm:react@15.0.1",
     "react-dom": "npm:react-dom@15.0.1",
     "react-dragula": "npm:react-dragula@1.1.15",
-    "react-dropzone-component": "npm:react-dropzone-component@1.0.0",
     "sortablejs": "npm:sortablejs@1.4.2",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
@@ -204,11 +204,6 @@ SystemJS.config({
       "map": {
         "atoa": "npm:atoa@1.0.0",
         "dragula": "npm:dragula@3.6.8"
-      }
-    },
-    "npm:react-dropzone-component@1.0.0": {
-      "map": {
-        "dropzone": "npm:dropzone@4.3.0"
       }
     },
     "npm:react@15.0.1": {
