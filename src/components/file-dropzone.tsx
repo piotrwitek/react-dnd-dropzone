@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOMServer from 'react-dom/server';
 import Dropzone from 'dropzone';
 Dropzone.autoDiscover = false;
-// import DropzoneComponent from 'react-dropzone-component';
 
 let template = ReactDOMServer.renderToStaticMarkup(
   <div className="dz-preview">

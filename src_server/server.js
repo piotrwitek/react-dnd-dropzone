@@ -15,7 +15,8 @@ console.log(rootPath);
 app.use(function*(next) {
   yield next;
   if (this.body || !this.idempotent) return;
-  this.redirect(path.join('/src/'));
+  console.log('error this:', this);
+  //this.redirect(path.join('/src/'));
 });
 
 // serve static files
@@ -24,7 +25,6 @@ app.use(serve(rootPath));
 // handle uploads
 app.use(function*(next) {
   // ignore non-POSTs
-  console.log('post start');
   if ('POST' != this.method) return yield next;
   console.log('post after yield');
 

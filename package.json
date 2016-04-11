@@ -30,7 +30,7 @@
   "jspm": {
     "name": "app",
     "dependencies": {
-      "dropzone": "github:enyo/dropzone@^4.3.0",
+      "dropzone": "npm:dropzone@^4.3.0",
       "react": "npm:react@^15.0.1",
       "react-dom": "npm:react-dom@^15.0.1",
       "react-dragula": "npm:react-dragula@^1.1.15",
@@ -66,11 +66,6 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
-      "github:enyo/dropzone@4.3.0": {
-        "directories": {
-          "lib": "dist"
-        }
-      },
       "npm:babel-runtime@5.8.38": {
         "main": false,
         "dependencies": {},
