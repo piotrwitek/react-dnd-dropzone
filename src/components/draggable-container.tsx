@@ -10,6 +10,8 @@ interface IState {
 }
 
 export class DraggableContainer extends React.Component<IProps, IState> {
+  draggableInstance = undefined;
+
   draggableItemsConstructor = (componentBackingInstance) => {
     // console.log(componentBackingInstance);
     if (componentBackingInstance) {
@@ -21,7 +23,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
         },
         group: "shared"
       };
-      Sortable.create(componentBackingInstance, options);
+      this.draggableInstance = Sortable.create(componentBackingInstance, options);
     }
   };
 
@@ -32,7 +34,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   render() {
     let {containerData} = this.props;
     return (
-      <div className="group">
+      <div className="group dropzone">
         <h2 className="group-title">{containerData.name}</h2>
         <div className="group-list" ref={this.draggableItemsConstructor}>
           { this.renderGroupItems(containerData.items) }

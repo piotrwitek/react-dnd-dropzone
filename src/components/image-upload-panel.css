@@ -1,14 +1,21 @@
 @media (max-width: 970px) and (min-width: 750px)
-.container {
+.image-upload-panel {
     width: 100%;
     min-width: 750px;
 }
-.container {
+
+.image-upload-panel {
     width: 80%;
     margin: auto;
     min-width: 1100px;
     max-width: 1300px;
     position: relative;
+}
+.draggable-container {
+
+}
+.draggable-item {
+  cursor: move !important;
 }
 
 .group {
@@ -36,9 +43,7 @@
     min-height: 80px;
 }
 .group-list {
+  border: 1px dashed orange;
+  border-radius: 10px;
     margin-top: 10px;
-}
-
-.dz-complete.dz-image-preview * {
-  cursor: move !important;
 }

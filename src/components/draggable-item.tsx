@@ -10,7 +10,7 @@ export class DraggableItem extends React.Component<IProps, IState> {
   render() {
     let name = this.props.item.split('/').slice(-1).pop();
     return (
-      <div className="dz-preview dz-processing dz-image-preview dz-success dz-complete">
+      <div className="draggable-item dz-preview dz-processing dz-image-preview dz-success dz-complete">
         <div className="dz-image">
           <img data-dz-thumbnail src={this.props.item} />
         </div>

@@ -3,7 +3,10 @@ import * as ReactDOMServer from 'react-dom/server';
 import Dropzone from 'dropzone';
 Dropzone.autoDiscover = false;
 
-let template = ReactDOMServer.renderToStaticMarkup(
+const UPLOAD_URL = 'http://localhost:3000/uploadHandler';
+const FILE_TYPES = ['.jpg', '.png', '.gif'];
+
+const template = ReactDOMServer.renderToStaticMarkup(
   <div className="dz-preview">
     <div className="dz-image">
       <img data-dz-thumbnail />
@@ -20,10 +23,6 @@ let template = ReactDOMServer.renderToStaticMarkup(
   </div>
 );
 
-var componentConfig = {
-  iconFiletypes: ['.jpg', '.png', '.gif']
-};
-
 interface IProps extends React.Props<FileDropzone> {
   data?: any;
 }
@@ -31,20 +30,22 @@ interface IState {
 }
 
 export class FileDropzone extends React.Component<IProps, IState> {
-  imageDropzone = undefined;
+  dropzoneInstance = undefined;
 
   dropzoneConstructor = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let options = {
-        url: 'http://localhost:3000/uploadHandler'
+        url: UPLOAD_URL,
+        maxFilesize: 2
       };
-      this.imageDropzone = new Dropzone(componentBackingInstance, options);
+      this.dropzoneInstance = new Dropzone(componentBackingInstance, options);
+
     }
   };
 
   render() {
     return (
-      <div className="file-dropzone" ref={this.dropzoneConstructor}></div>
+      <div id="clipboard-dropzone" className="file-dropzone dropzone" ref={this.dropzoneConstructor}></div>
     );
   }
 
