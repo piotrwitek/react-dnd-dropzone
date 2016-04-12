@@ -37,6 +37,7 @@ SystemJS.config({
     "domain": "github:jspm/nodelibs-domain@0.2.0-alpha",
     "dropzone": "npm:dropzone@4.3.0",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
+    "fileapi": "npm:fileapi@2.0.20",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
     "http": "github:jspm/nodelibs-http@0.2.0-alpha",
     "https": "github:jspm/nodelibs-https@0.2.0-alpha",

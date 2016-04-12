@@ -1,49 +1,47 @@
-@media (max-width: 970px) and (min-width: 750px)
+@media (max-width: 970px) and (min-width: 750px) .image-upload-panel {
+  width: 100%;
+  min-width: 750px;
+}
 .image-upload-panel {
-    width: 100%;
-    min-width: 750px;
+  width: 80%;
+  margin: auto;
+  min-width: 1100px;
+  max-width: 1300px;
+  position: relative;
 }
-
-.image-upload-panel {
-    width: 80%;
-    margin: auto;
-    min-width: 1100px;
-    max-width: 1300px;
-    position: relative;
-}
-.draggable-container {
-
-}
+.draggable-container {}
 .draggable-item {
   cursor: move !important;
 }
-
 .group {
-    width: 22%;
-    min-width: 245px;
-    color: #FF7270;
-    padding: 10px 30px;
-    text-align: center;
-    margin-top: 15px;
-    margin-left: 5px;
-    margin-right: 30px;
-    background-color: #fff;
-    display: inline-block;
-    vertical-align: top;
+  width: 22%;
+  min-width: 245px;
+  color: #FF7270;
+  padding: 10px 30px;
+  text-align: center;
+  margin-top: 15px;
+  margin-left: 5px;
+  margin-right: 30px;
+  background-color: #fff;
+  display: inline-block;
+  vertical-align: top;
 }
-
 .group-title {
-    cursor: move;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #FF7373;
+  cursor: move;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #FF7373;
 }
-
 .group-list:last-child {
-    margin-right: 0;
-    min-height: 80px;
+  margin-right: 0;
+  min-height: 80px;
 }
 .group-list {
   border: 1px dashed orange;
   border-radius: 10px;
-    margin-top: 10px;
+  margin-top: 10px;
+}
+
+.upload-link {
+  cursor: pointer;
+  text-decoration: underline;
 }

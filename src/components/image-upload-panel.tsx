@@ -2,6 +2,7 @@ import './image-upload-panel.css!';
 
 import * as React from "react";
 import Sortable from 'sortablejs';
+
 import {DraggableContainer} from './draggable-container';
 import {FileDropzone} from './file-dropzone';
 
@@ -30,7 +31,7 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="image-upload-panel" ref={this.draggableContainersConstructor}>
-        <FileDropzone />  
+        <FileDropzone />
         { this.props.inputData.map((containerData, index) =>
          <DraggableContainer containerData={containerData} logger={this.props.logger} key={index} />) }
       </div>

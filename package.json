@@ -31,6 +31,7 @@
     "name": "app",
     "dependencies": {
       "dropzone": "npm:dropzone@^4.3.0",
+      "fileapi": "npm:fileapi@^2.0.20",
       "react": "npm:react@^15.0.1",
       "react-dom": "npm:react-dom@^15.0.1",
       "react-dragula": "npm:react-dragula@^1.1.15",

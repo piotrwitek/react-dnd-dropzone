@@ -23,10 +23,12 @@
     "../typings/main.d.ts",
     "typings.d.ts",
     "app-globals.tsx",
+    "app-utils.tsx",
     "app.tsx",
     "components/draggable-container.tsx",
     "components/draggable-item.tsx",
     "components/dragula-example-esnext.tsx",
+    "components/dropzone-container.tsx",
     "components/file-dropzone.tsx",
     "components/image-upload-panel.tsx",
     "components/sortable-example-esnext.tsx"

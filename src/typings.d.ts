@@ -1,3 +1,8 @@
+declare module 'fileapi' {
+  var api: any;
+  export = api;
+}
+
 declare module 'dropzone' {
   var api: any;
   export = api;

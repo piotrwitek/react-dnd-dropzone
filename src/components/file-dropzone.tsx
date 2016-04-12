@@ -4,7 +4,7 @@ import Dropzone from 'dropzone';
 Dropzone.autoDiscover = false;
 
 const UPLOAD_URL = 'http://localhost:3000/uploadHandler';
-const FILE_TYPES = ['.jpg', '.png', '.gif'];
+const FILE_TYPES = '.jpg, .png, .gif';
 
 const template = ReactDOMServer.renderToStaticMarkup(
   <div className="dz-preview">
@@ -36,12 +36,24 @@ export class FileDropzone extends React.Component<IProps, IState> {
     if (componentBackingInstance) {
       let options = {
         url: UPLOAD_URL,
-        maxFilesize: 2
+        maxFilesize: 2,
+        addRemoveLinks: true,
+        acceptedFiles: FILE_TYPES
       };
       this.dropzoneInstance = new Dropzone(componentBackingInstance, options);
+      this.dropzoneInstance.on("success", (file, responseText) => {
+        // remove this file and create react component
+        var mockFile = { name: "Filename", size: 12345 };
+        let thumbnail = this.dropzoneInstance.createThumbnailFromUrl(mockFile, '/src_server/1460437027905_1925_UUQYMPG.jpg');
+
+        //file.previewTemplate.appendChild(document.createTextNode(responseText));
+      });
 
     }
   };
+
+  componentDidMount() {
+  }
 
   render() {
     return (

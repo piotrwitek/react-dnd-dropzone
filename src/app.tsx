@@ -7,6 +7,7 @@ var appContainer = document.getElementById('app-container');
 
 // style imports
 import './app.css!';
+
 // lib imports
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -30,36 +31,51 @@ var galleryData = [
     name: 'Salon',
     type: 0,
     items: [
-      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png',
-      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png'
+      '/src_server/1460437027905_1925_UUQYMPG.jpg',
+      '/src_server/1460437027905_1925_UUQYMPG.jpg'
     ]
   },
   {
     name: 'Pokój 1',
     type: 0,
     items: [
-      '/src_server/uploads/1460244748406_6785_xterm-app-128-cropped.png'
+      '/src_server/1460437027905_1925_UUQYMPG.jpg'
     ]
   }
 ];
 
-var logAppData = () => { console.log('app store data:', galleryData) };
+var logAppData = () => {
+  console.log('app store data:', galleryData);
+};
 
 interface AppState {
+  galleryData: any;
 }
 
 interface AppProps extends React.Props<App> {
 }
 
 export class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super();
+  state: AppState = {
+    galleryData: galleryData
+  }
+
+  addItem = (item) => {
+
+  }
+
+  removeItem = (item) => {
+
+  }
+
+  updateItem = (item) => {
+
   }
 
   render() {
     return (
       <div>
-        <ImageUploadPanel inputData={galleryData} logger={logAppData} />
+        <ImageUploadPanel inputData={this.state.galleryData} logger={logAppData} />
       </div>
     );
   }
