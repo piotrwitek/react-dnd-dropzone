@@ -28,20 +28,39 @@ app.use(serve(rootPath));
 app.use(function*(next) {
   // ignore non-POSTs
   if (this.method !== 'POST' && !this.request.is('multipart/*')) return yield next;
-  console.log('multipart upload');
   // multipart upload
-  var parts = parse(this), part;
+  let parts = parse(this, {
+    autoFields: true,
+    checkField: function(name, value) {
+      if (name === '_csrf' && !checkCSRF(ctx, value)) {
+        var err = new Error('invalid csrf token')
+        err.status = 400
+        return err
+      }
+    },
+    // only allow upload `.jpg` files
+    checkFile: function(fieldname, file, filename) {
+      if (path.extname(filename) !== '.jpg' && path.extname(filename) !== '.jpeg') {
+        var err = new Error('invalid jpeg image')
+        err.status = 400
+        return err
+      }
+    }
+  });
+  let part;
+  // .field holds all the fields in key/value form
+  console.log(parts.field._csrf);
 
   try {
     while (part = yield parts) {
       let fileName = `${Date.now()}_${Math.floor(Math.random()*1000000)}.jpg`;
       let writePath = path.join(rootPath, 'src_server', 'uploads', fileName);
       if (part.length) { // fields
-        console.log(part);
+        console.log('fields: %s', part);
       } else { // stream
         let stream = fs.createWriteStream(writePath);
         part.pipe(stream);
-        console.log('uploading %s -> %s', part.filename, stream.path);
+        console.log('uploading: %s -> %s', part.filename, stream.path);
       }
     }
     this.status = 200;
