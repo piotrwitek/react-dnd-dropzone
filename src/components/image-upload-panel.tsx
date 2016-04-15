@@ -31,9 +31,9 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="image-upload-panel" ref={this.draggableContainersConstructor}>
-        <FileDropzone />
-        { this.props.inputData.map((containerData, index) =>
-         <DraggableContainer containerData={containerData} logger={this.props.logger} key={index} />) }
+        {/* <FileDropzone /> */}
+        {this.props.inputData.map((containerData, index) =>
+          <DraggableContainer containerData={containerData} logger={this.props.logger} key={index} />) }
       </div>
     );
   }

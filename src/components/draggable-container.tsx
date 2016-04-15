@@ -6,7 +6,9 @@ import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
 import {DraggableItem} from './draggable-item';
 
-const REMOVE_BUTTON = '.dz-remove';
+const PREVIEW_SIZE = 120;
+const ANIMATION_SPEED = 500;
+const REMOVE_BUTTON_SELECTOR = '.dz-remove';
 
 interface IProps extends React.Props<DraggableContainer> {
   logger: any;
@@ -21,12 +23,12 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   sortableContainerConstructor = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let options = {
-        animation: 1000, // ms, animation speed moving items when sorting, `0` — without animation
+        animation: ANIMATION_SPEED, // ms, animation speed moving items when sorting, `0` — without animation
         // draggable: "", // Specifies which items inside the element should be sortable
         group: "shared",
-        onMove: this.onMoveHandler,
-        filter: REMOVE_BUTTON,
-        onFilter: this.onRemoveHandler
+        filter: REMOVE_BUTTON_SELECTOR,
+        onFilter: this.onRemoveHandler,
+        onMove: this.onMoveHandler
       };
       let sortableInstance = Sortable.create(componentBackingInstance, options);
       this.sortableContainerElement = sortableInstance.el;
@@ -36,52 +38,30 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   onMoveHandler = (evt/**Event*/) => {
     let item = evt.dragged, from = evt.from, to = evt.to;
     console.log('move event');
-
     // TODO: update store
   }
-  // Interaction on filtered element
+  // Event on filtered selector
   onRemoveHandler = (evt) => {
     let item = evt.item, target = evt.target;
-    if (Sortable.utils.is(target, REMOVE_BUTTON)) {  // Click on remove button
+    if (Sortable.utils.is(target, REMOVE_BUTTON_SELECTOR)) {  // Click on remove button
       item.parentNode.removeChild(item); // remove sortable item
     }
-
     // TODO: update store
     // TODO: delete file on server
   }
-
+  // Event when selected new file with input
   onAddHandler = (inputImg) => {
-    // TODO: render item
-    let item = document.createElement('div');
-    let src = '/src_server/1460437027905_1925_UUQYMPG.jpg';
-    var img = new Image();   // Create new img element
-    img.onload = () => {
-      // execute drawImage statements here
-      // let thumb = getThumbnail(img, 1 / 5);
-      // this.sortableContainerElement.appendChild(thumb);
-console.log('onload');
-      FileAPI.Image(img).preview(100).get((err, finalImg) => {
-        // add new item
-        console.log('preview');
-        this.sortableContainerElement.appendChild(finalImg);
-      });
-
-    };
-    img.src = src; // Set source path
-
-    // TODO: update store
-
-    function getThumbnail(original, scale) {
-      var canvas = document.createElement("canvas")
-
-      canvas.width = original.width * scale
-      canvas.height = original.height * scale
-
-      canvas.getContext("2d").drawImage
-        (original, 0, 0, canvas.width, canvas.height)
-
-      return canvas
-    }
+    FileAPI.Image(inputImg).preview(PREVIEW_SIZE).get((err, finalImg) => {
+      if (!err) {
+        let item = document.createElement('div');
+        ReactDOM.render(
+          <DraggableItem item={''} />
+          , item);
+        // append to container
+        this.sortableContainerElement.appendChild(item);
+        // TODO: update store
+      }
+    });
   }
 
   render() {
@@ -99,7 +79,7 @@ console.log('onload');
 
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
-        <label className="upload-link" htmlFor={PREFIX + '_file'}>Choose a file</label>
+        <label className="upload-link" htmlFor={PREFIX + '_file'}>Upload files...</label>
 
         <div className="group-list" ref={this.sortableContainerConstructor}>
           {containerData.items.map((item, index) =>
@@ -121,32 +101,26 @@ console.log('onload');
 
   fileInputChangeHandler = (evt) => {
     let files = FileAPI.getFiles(evt); // Retrieve file list
-
-    FileAPI.filterFiles(files, (file, info/**Object*/) => {
-      if (/^image/.test(file.type)) {
-        return info.width >= 100 && info.height >= 100;
-      }
-      return false;
-    }, (files/**Array*/, rejected/**Array*/) => {
-      if (files.length) {
-        files.forEach((file) => {
-          // Make preview 100x100
-          FileAPI.Image(file).preview(100).get((err, img) => {
-            // add new item
-            this.onAddHandler(img);
-            if (!err) {
-            }
+    files = files.filter((file) => /^image/.test(file.type));
+    files.forEach((file) => {
+      // make preview 100x100
+      FileAPI.Image(file).preview(100).get((err, img) => {
+        if (!err) {
+          // render preview
+          this.onAddHandler(img);
+          // upload file
+          FileAPI.upload({
+            url: AppGlobals.UPLOAD_URL,
+            files: { file: file },
+            // imageTransform: { type: 'image/jpeg', quality: 0.86 },
+            upload: (evt) => { console.log('upload start') },
+            progress: (evt) => { console.log('upload progress') },
+            complete: (err, xhr) => { console.log('upload done') }
           });
-        })
-
-        // Uploading Files
-        // FileAPI.upload({
-        //   url: AppGlobals.UPLOAD_URL,
-        //   files: { images: files },
-        //   progress: (evt) => { console.log('upload progress') },
-        //   complete: (err, xhr) => { console.log('upload done') }
-        // });
-      }
+        }
+      });
     });
+    // reset file input
+    FileAPI.reset(evt.currentTarget);
   }
 }

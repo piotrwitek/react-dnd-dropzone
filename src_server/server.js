@@ -26,21 +26,28 @@ app.use(serve(rootPath));
 app.use(function*(next) {
   // ignore non-POSTs
   if ('POST' != this.method) return yield next;
-  console.log('post after yield');
 
+  if (!this.request.is('multipart/*')) return yield next;
+  console.log('multipart upload');
   // multipart upload
   var parts = parse(this);
   var part;
 
   try {
     while (part = yield parts) {
-      var tempName = `${Date.now()}_${Math.floor(Math.random()*10000)}_${part.filename}`;
-      var stream = fs.createWriteStream(path.join(rootPath, 'src_server', 'uploads', tempName));
-      part.pipe(stream);
-      console.log('uploading %s -> %s', part.filename, stream.path);
+      var tempFileName = `${Date.now()}_${Math.floor(Math.random()*1000000)}.jpg`;
+      if (part.length) { // fields
+        console.log(part);
+      }
+      else { // stream
+        var stream = fs.createWriteStream(path.join(rootPath, 'src_server', 'uploads', tempFileName));
+        part.pipe(stream);
+        console.log('uploading %s -> %s', part.filename, stream.path);
+      }
     }
     this.status = 200;
   } catch (exception) {
+    console.log(exception);
     this.status = 500;
   }
 });
