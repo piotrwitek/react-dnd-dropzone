@@ -1,16 +1,18 @@
-var logger = require('koa-logger');
-var serve = require('koa-static');
-var parse = require('co-busboy');
-var koa = require('koa');
-var fs = require('fs');
-var app = koa();
-var os = require('os');
-var path = require('path');
-var rootPath = path.join(__dirname, '..');
-console.log(rootPath);
+'use strict';
 
+const fs = require('fs');
+const path = require('path');
+// const os = require('os');
+const koa = require('koa');
+const serve = require('koa-static');
+const logger = require('koa-logger');
+const parse = require('co-busboy');
+
+const rootPath = path.join(__dirname, '..');
+const app = koa();
 // logging
 //app.use(logger());
+
 // redirect to homepage
 app.use(function*(next) {
   yield next;
@@ -25,22 +27,19 @@ app.use(serve(rootPath));
 // handle uploads
 app.use(function*(next) {
   // ignore non-POSTs
-  if ('POST' != this.method) return yield next;
-
-  if (!this.request.is('multipart/*')) return yield next;
+  if (this.method !== 'POST' && !this.request.is('multipart/*')) return yield next;
   console.log('multipart upload');
   // multipart upload
-  var parts = parse(this);
-  var part;
+  var parts = parse(this), part;
 
   try {
     while (part = yield parts) {
-      var tempFileName = `${Date.now()}_${Math.floor(Math.random()*1000000)}.jpg`;
+      let fileName = `${Date.now()}_${Math.floor(Math.random()*1000000)}.jpg`;
+      let writePath = path.join(rootPath, 'src_server', 'uploads', fileName);
       if (part.length) { // fields
         console.log(part);
-      }
-      else { // stream
-        var stream = fs.createWriteStream(path.join(rootPath, 'src_server', 'uploads', tempFileName));
+      } else { // stream
+        let stream = fs.createWriteStream(writePath);
         part.pipe(stream);
         console.log('uploading %s -> %s', part.filename, stream.path);
       }
