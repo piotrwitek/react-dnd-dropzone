@@ -6,7 +6,6 @@ import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
 import {DraggableItem} from './draggable-item';
 
-const PREVIEW_SIZE = 120;
 const ANIMATION_SPEED = 500;
 const REMOVE_BUTTON_SELECTOR = '.dz-remove';
 
@@ -50,18 +49,12 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     // TODO: delete file on server
   }
   // Event when selected new file with input
-  onAddHandler = (inputImg) => {
-    FileAPI.Image(inputImg).preview(PREVIEW_SIZE).get((err, finalImg) => {
-      if (!err) {
-        let item = document.createElement('div');
-        ReactDOM.render(
-          <DraggableItem item={''} />
-          , item);
-        // append to container
-        this.sortableContainerElement.appendChild(item);
-        // TODO: update store
-      }
-    });
+  onAddHandler = (file) => {
+    let item = document.createElement('div');
+    ReactDOM.render(<DraggableItem file={file} name={file.name} />, item);
+    // append to container
+    this.sortableContainerElement.appendChild(item);
+    // TODO: update store
   }
 
   render() {
@@ -83,7 +76,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
         <div className="group-list" ref={this.sortableContainerConstructor}>
           {containerData.items.map((item, index) =>
-            <DraggableItem item={item} key={index} logger={this.props.logger} />
+            <DraggableItem file={item} name={item.split('/').slice(-1).pop()} key={index} logger={this.props.logger} />
           ) }
         </div>
 
@@ -103,21 +96,15 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     let files = FileAPI.getFiles(evt); // Retrieve file list
     files = files.filter((file) => /^image/.test(file.type));
     files.forEach((file) => {
-      // make preview 100x100
-      FileAPI.Image(file).preview(100).get((err, img) => {
-        if (!err) {
-          // render preview
-          this.onAddHandler(img);
-          // upload file
-          FileAPI.upload({
-            url: AppGlobals.UPLOAD_URL,
-            files: { file: file },
-            // imageTransform: { type: 'image/jpeg', quality: 0.86 },
-            upload: (evt) => { console.log('upload start') },
-            progress: (evt) => { console.log('upload progress') },
-            complete: (err, xhr) => { console.log('upload done') }
-          });
-        }
+      this.onAddHandler(file);
+      // upload file
+      FileAPI.upload({
+        url: AppGlobals.UPLOAD_URL,
+        files: { file: file },
+        imageTransform: { type: 'image/jpeg', quality: 0.86 },
+        upload: (evt) => { console.log('upload start') },
+        progress: (evt) => { console.log('upload progress') },
+        complete: (err, xhr) => { console.log('upload done') }
       });
     });
     // reset file input
