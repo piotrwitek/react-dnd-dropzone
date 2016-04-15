@@ -1,4 +1,4 @@
-import './image-upload-panel.css!';
+import '../styles/image-upload-panel.css!';
 
 import * as React from "react";
 import Sortable from 'sortablejs';

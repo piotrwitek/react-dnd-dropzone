@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "declaration": false,
     "module": "system",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "noImplicitAny": false,
-    "isolatedModules": false,
-    "experimentalDecorators": true,
+    "target": "es6",
     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "isolatedModules": false,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noEmitOnError": true,
+    "noImplicitAny": false,
+    "noResolve": false,
+    "outDir": "../out",
     "preserveConstEnums": true,
     "removeComments": true,
-    "sourceMap": true,
-    "declaration": false
+    "sourceMap": false,
+    "allowUnusedLabels": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "filesGlob": [
     "../typings/main.d.ts",
@@ -27,11 +34,11 @@
     "app.tsx",
     "components/draggable-container.tsx",
     "components/draggable-item.tsx",
-    "components/dragula-example-esnext.tsx",
     "components/dropzone-container.tsx",
     "components/file-dropzone.tsx",
     "components/image-upload-panel.tsx",
-    "components/sortable-example-esnext.tsx"
+    "examples/dragula-example-esnext.tsx",
+    "examples/sortable-example-esnext.tsx"
   ],
   "atom": {
     "rewriteTsconfig": true,

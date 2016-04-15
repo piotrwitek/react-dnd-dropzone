@@ -3,17 +3,14 @@ export function __reload(prev) {
   if (prev.app.state)
     app.setState(prev.app.state);
 }
-var appContainer = document.getElementById('app-container');
 
 // style imports
-import './app.css!';
+import './styles/app.css!';
 
 // lib imports
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // components imports
-import {DragulaExampleEsnext} from './components/dragula-example-esnext';
-import {SortableExampleEsnext} from './components/sortable-example-esnext';
 import {ImageUploadPanel} from './components/image-upload-panel';
 
 // type ProjectGalleryData = {
@@ -81,4 +78,4 @@ export class App extends React.Component<AppProps, AppState> {
   }
 }
 
-export var app: any = ReactDOM.render(<App />, appContainer);
+export var app: any = ReactDOM.render(<App />, document.getElementById('app-container'));
