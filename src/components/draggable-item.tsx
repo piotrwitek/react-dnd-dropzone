@@ -41,7 +41,7 @@ export class DraggableItem extends React.Component<IProps, IState> {
   render() {
     let {name} = this.props;
     return (
-      <div className="ui dimmable" ref={this.componentRootNode}>
+      <div className="ui dimmable" ref={this.componentRootNode} data-id="2" key="2">
         <div ref={this.renderPreview}></div>
         <a onClick={this.handleRemove} className="ui right corner label remove-item">
           <i className="delete icon"></i>

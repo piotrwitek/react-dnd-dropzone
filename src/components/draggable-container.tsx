@@ -9,8 +9,9 @@ const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
 
 interface IProps extends React.Props<DraggableContainer> {
-  itemsData: any;
   dragulaInstance: any;
+  index: any;
+  itemsData: any;
   addItem: any;
   removeItem: any;
   moveItem: any;
@@ -56,8 +57,10 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   // add new files handler
   addNewImage = (file) => {
     // render to container
+    let index = this.draggableContainerNode.childNodes.length;
     let previewNode = document.createElement('div');
     previewNode.className += "draggable-item";
+    previewNode.setAttribute('data-id', index.toString());
     ReactDOM.render(<DraggableItem fileReference={file} name={file.name} dragulaInstance={this.props.dragulaInstance} />, previewNode);
     this.draggableContainerNode.appendChild(previewNode);
 
@@ -69,7 +72,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
   render() {
     const PREFIX = AppUtils.generateRandomString();
-    let {itemsData} = this.props;
+    let {index, itemsData} = this.props;
     return (
       <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor}>
 
@@ -79,9 +82,9 @@ export class DraggableContainer extends React.Component<IProps, IState> {
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
 
-        <div className="draggable-container-items" ref={this.draggableContainerConstructor}>
+        <div className="draggable-container-items" data-id={index} ref={this.draggableContainerConstructor}>
           {itemsData.items.map((item, index) =>
-            <div className="draggable-item" key={index}>
+            <div className="draggable-item" key={index} data-id={index}>
               <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }
                 dragulaInstance={this.props.dragulaInstance} />
             </div>

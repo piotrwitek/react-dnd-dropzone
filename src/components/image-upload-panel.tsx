@@ -29,7 +29,7 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   }).on('out', (el, container) => {
     container.className = container.className.replace('ex-over', '');
   }).on('drop', (el, target, source, sibling) => {
-
+    console.log(el);debugger;
   });
 
   draggablePanelsConstructor = (backingInstance) => {
@@ -44,19 +44,13 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
     }
   }
 
-  // Event when you move an item in the list or between lists
-  onEndHandler = (evt/**Event*/) => {
-    let item = evt.item, oldIndex = evt.oldIndex, newIndex = evt.newIndex;
-    console.log('move event', evt);
-    // TODO: update store
-  }
-
   render() {
     return (
       <div className="image-upload-panel" ref={this.draggablePanelsConstructor}>
         {this.props.containersData.map((containerData, index) =>
-          <DraggableContainer itemsData={containerData} key={index} dragulaInstance={this.dragulaInstance}
-            addItem={this.props.addItem} removeItem={this.props.removeItem} moveItem={this.props.moveItem} />) }
+          <DraggableContainer key={index} index={index} itemsData={containerData}
+            addItem={this.props.addItem} removeItem={this.props.removeItem} moveItem={this.props.moveItem}
+            dragulaInstance={this.dragulaInstance} />) }
       </div>
     );
   }
