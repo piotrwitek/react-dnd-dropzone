@@ -6,6 +6,12 @@ export function __reload(prev) {
 
 // style imports
 import './styles/app.css!';
+import './vendors/dimmer.min.css!';
+import './vendors/button.min.css!';
+import './vendors/image.min.css!';
+import './vendors/segment.min.css!';
+import './vendors/label.min.css!';
+import './vendors/icon.min.css!';
 
 // lib imports
 import * as React from 'react';

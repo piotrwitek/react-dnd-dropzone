@@ -11,14 +11,19 @@
 }
 .draggable-container {}
 .draggable-item {
-  cursor: move !important;
+  cursor: move;
+  display: inline-block;
+  vertical-align: middle;
+  margin: .25rem;
+  border: 1px solid rgba(255, 114, 112, 0.5);
+}
+.draggable-item canvas {
 }
 .group {
-  width: 22%;
-  min-width: 245px;
+  width: 33%;
+  min-width: 300px;
   color: #FF7270;
   padding: 10px 30px;
-  text-align: center;
   margin-top: 15px;
   margin-left: 5px;
   margin-right: 30px;
@@ -28,17 +33,18 @@
 }
 .group-title {
   cursor: move;
+  text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid #FF7373;
 }
 .group-list:last-child {
-  margin-right: 0;
-  min-height: 80px;
+  /*margin-right: 0;*/
+  min-height: 150px;
 }
 .group-list {
-  border: 1px dashed orange;
-  border-radius: 10px;
-  margin-top: 10px;
+  border: 1px dashed #FF7373;
+  /*border-radius: 10px;*/
+  margin-top: 15px;
 }
 
 .upload-link {

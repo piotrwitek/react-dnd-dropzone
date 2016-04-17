@@ -6,8 +6,8 @@ import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
 import {DraggableItem} from './draggable-item';
 
-const ANIMATION_SPEED = 500;
-const REMOVE_BUTTON_SELECTOR = '.dz-remove';
+const ANIMATION_SPEED = 300;
+const REMOVE_BUTTON_SELECTOR = '.remove-item';
 
 interface IProps extends React.Props<DraggableContainer> {
   logger: any;
@@ -51,6 +51,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   // Event when selected new file with input
   onAddHandler = (file) => {
     let item = document.createElement('div');
+    item.className += "draggable-item";
     ReactDOM.render(<DraggableItem file={file} name={file.name} />, item);
     // append to container
     this.sortableContainerElement.appendChild(item);
@@ -76,7 +77,9 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
         <div className="group-list" ref={this.sortableContainerConstructor}>
           {containerData.items.map((item, index) =>
-            <DraggableItem file={item} name={item.split('/').slice(-1).pop()} key={index} logger={this.props.logger} />
+            <div className="draggable-item" key={index}>
+              <DraggableItem file={item} name={item.split('/').slice(-1).pop()}  logger={this.props.logger} />
+            </div>
           ) }
         </div>
 
