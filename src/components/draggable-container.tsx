@@ -62,20 +62,20 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     const PREFIX = AppUtils.generateRandomString();
     let {containerData} = this.props;
     return (
-      <div className="group dropzone">
+      <div className="draggable-container">
 
         <div id="drop-zone" class="b-dropzone" style={{ display: 'none' }}>
           <div class="b-dropzone__bg"></div>
           <div class="b-dropzone__txt">Drop files</div>
         </div>
 
-        <h2 className="group-title">{containerData.name}</h2>
+        <h2 className="draggable-container-header">{containerData.name}</h2>
 
+        <label className="upload-link" htmlFor={PREFIX + '_file'}>Upload files...</label>
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
-        <label className="upload-link" htmlFor={PREFIX + '_file'}>Upload files...</label>
 
-        <div className="group-list" ref={this.sortableContainerConstructor}>
+        <div className="draggable-container-items" ref={this.sortableContainerConstructor}>
           {containerData.items.map((item, index) =>
             <div className="draggable-item" key={index}>
               <DraggableItem file={item} name={item.split('/').slice(-1).pop()}  logger={this.props.logger} />

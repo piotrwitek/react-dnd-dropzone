@@ -1,15 +1,41 @@
-@media (max-width: 970px) and (min-width: 750px) .image-upload-panel {
+@media (max-width: 970px) and (min-width: 482px) .image-upload-panel {
   width: 100%;
-  min-width: 750px;
+  min-width: 482px;
 }
 .image-upload-panel {
-  width: 80%;
-  margin: auto;
-  min-width: 1100px;
-  max-width: 1300px;
+  width: 33%;
+  /*margin: auto;*/
+  /*min-width: 482px;*/
+  /*max-width: 482px;*/
   position: relative;
 }
-.draggable-container {}
+.draggable-container {
+  min-width: 482px;
+  color: #FF7270;
+  padding: 5px 20px 20px;
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #fff;
+}
+.draggable-container-header {
+  cursor: move;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #FF7373;
+}
+.draggable-container-items {
+  border: 1px dashed #FF7373;
+  margin-top: 15px;
+}
+.draggable-container-items:last-child {
+  /*margin-right: 0;*/
+  min-height: 160px;
+}
+.upload-link {
+  cursor: pointer;
+  text-decoration: underline;
+}
 .draggable-item {
   cursor: move;
   display: inline-block;
@@ -18,36 +44,4 @@
   border: 1px solid rgba(255, 114, 112, 0.5);
 }
 .draggable-item canvas {
-}
-.group {
-  width: 33%;
-  min-width: 300px;
-  color: #FF7270;
-  padding: 10px 30px;
-  margin-top: 15px;
-  margin-left: 5px;
-  margin-right: 30px;
-  background-color: #fff;
-  display: inline-block;
-  vertical-align: top;
-}
-.group-title {
-  cursor: move;
-  text-align: center;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #FF7373;
-}
-.group-list:last-child {
-  /*margin-right: 0;*/
-  min-height: 150px;
-}
-.group-list {
-  border: 1px dashed #FF7373;
-  /*border-radius: 10px;*/
-  margin-top: 15px;
-}
-
-.upload-link {
-  cursor: pointer;
-  text-decoration: underline;
 }
