@@ -9,7 +9,11 @@ import {DraggableContainer} from './draggable-container';
 const HANDLE_SELECTOR = 'draggable-container-header';
 
 interface IProps extends React.Props<ImageUploadPanel> {
-  inputData: any;
+  containersData: any;
+  moveContainer: any;
+  addItem: any;
+  removeItem: any;
+  moveItem: any;
 }
 interface IState {
 }
@@ -24,6 +28,8 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
     container.className += ' ex-over';
   }).on('out', (el, container) => {
     container.className = container.className.replace('ex-over', '');
+  }).on('drop', (el, target, source, sibling) => {
+
   });
 
   draggablePanelsConstructor = (backingInstance) => {
@@ -48,9 +54,9 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="image-upload-panel" ref={this.draggablePanelsConstructor}>
-        {this.props.inputData.map((containerData, index) =>
-          <DraggableContainer itemsData={containerData} key={index}
-            dragulaInstance={this.dragulaInstance} />) }
+        {this.props.containersData.map((containerData, index) =>
+          <DraggableContainer itemsData={containerData} key={index} dragulaInstance={this.dragulaInstance}
+            addItem={this.props.addItem} removeItem={this.props.removeItem} moveItem={this.props.moveItem} />) }
       </div>
     );
   }

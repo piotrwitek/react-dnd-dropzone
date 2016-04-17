@@ -29,7 +29,7 @@ import {ImageUploadPanel} from './components/image-upload-panel';
 //   ]
 // }
 
-var galleryData = [
+var initialContainersData = [
   {
     name: 'Salon',
     type: 0,
@@ -50,7 +50,7 @@ var galleryData = [
 // sessionStorage
 
 var logAppData = () => {
-  console.log('app store data:', galleryData);
+  console.log('app store data:', initialContainersData);
 };
 
 interface AppState {
@@ -62,7 +62,7 @@ interface AppProps extends React.Props<App> {
 
 export class App extends React.Component<AppProps, AppState> {
   state: AppState = {
-    galleryData: galleryData
+    galleryData: initialContainersData
   }
 
   addItem = (item) => {
@@ -73,13 +73,18 @@ export class App extends React.Component<AppProps, AppState> {
 
   }
 
-  updateItem = (item) => {
+  moveItem = (item) => {
+
+  }
+
+  moveContainer = (position) => {
 
   }
 
   render() {
     return (
-      <ImageUploadPanel inputData={this.state.galleryData} />
+      <ImageUploadPanel containersData={this.state.galleryData} moveContainer={this.moveContainer}
+        addItem={this.addItem} removeItem={this.removeItem} moveItem={this.moveItem} />
     );
   }
 }

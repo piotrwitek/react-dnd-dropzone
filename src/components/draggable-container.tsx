@@ -11,6 +11,9 @@ const REMOVE_BUTTON_SELECTOR = '.remove-item';
 interface IProps extends React.Props<DraggableContainer> {
   itemsData: any;
   dragulaInstance: any;
+  addItem: any;
+  removeItem: any;
+  moveItem: any;
 }
 interface IState {
 }
@@ -38,7 +41,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
       FileAPI.event.dnd(backingInstance, hoverHandler, dropHandler);
     }
   }
-  // extract fileinput component
+  // TODO: extract fileinput component
   fileInputConstructor = (backingInstance) => {
     if (backingInstance) {
       FileAPI.event.on(backingInstance, 'change', (evt) => {
