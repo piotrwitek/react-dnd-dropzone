@@ -34,7 +34,6 @@
     "app.tsx",
     "components/draggable-container.tsx",
     "components/draggable-item.tsx",
-    "components/dropzone-container.tsx",
     "components/file-dropzone.tsx",
     "components/image-upload-panel.tsx",
     "examples/dragula-example-esnext.tsx",

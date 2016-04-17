@@ -6,13 +6,25 @@ const PREVIEW_SIZE = 120;
 interface IProps extends React.Props<DraggableItem> {
   name: string;
   fileReference: any;
+  dragulaInstance: any;
 }
 interface IState {
 }
 
 export class DraggableItem extends React.Component<IProps, IState> {
-  handleRemove = () => {
+  componentRootNode = (backingInstance) => {
+    if (backingInstance) {
+      this.componentRootNode = backingInstance;
+    }
+  }
 
+  handleRemove = () => {
+    this.props.dragulaInstance.start(this.componentRootNode);
+    this.props.dragulaInstance.remove();
+    // TODO: update store
+
+    // TODO: delete file on server
+    // fetch(delete:images/id)
   }
 
   renderPreview = (backingInstance) => {
@@ -29,7 +41,7 @@ export class DraggableItem extends React.Component<IProps, IState> {
   render() {
     let {name} = this.props;
     return (
-      <div className="ui dimmable">
+      <div className="ui dimmable" ref={this.componentRootNode}>
         <div ref={this.renderPreview}></div>
         <a onClick={this.handleRemove} className="ui right corner label remove-item">
           <i className="delete icon"></i>

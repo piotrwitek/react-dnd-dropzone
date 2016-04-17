@@ -1,8 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from 'react-dom';
-import Sortable from 'sortablejs';
+import Dragula from 'react-dragula';
 import FileAPI from 'fileapi';
-import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
 import {DraggableItem} from './draggable-item';
 
@@ -10,60 +9,78 @@ const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
 
 interface IProps extends React.Props<DraggableContainer> {
-  containerData: any;
+  itemsData: any;
+  dragulaInstance: any;
 }
 interface IState {
 }
 
 export class DraggableContainer extends React.Component<IProps, IState> {
-  sortableContainerElement = undefined;
-
-  sortableContainerConstructor = (componentBackingInstance) => {
-    if (componentBackingInstance) {
-      let options = {
-        animation: ANIMATION_SPEED, // ms, animation speed moving items when sorting, `0` — without animation
-        // draggable: "", // Specifies which items inside the element should be sortable
-        group: "shared",
-        filter: REMOVE_BUTTON_SELECTOR,
-        onFilter: this.onRemoveHandler,
-        onMove: this.onMoveHandler
-      };
-      let sortableInstance = Sortable.create(componentBackingInstance, options);
-      this.sortableContainerElement = sortableInstance.el;
+  draggableContainerNode: undefined;
+  // items container
+  draggableContainerConstructor = (backingInstance) => {
+    if (backingInstance) {
+      this.draggableContainerNode = backingInstance;
+      this.props.dragulaInstance.containers.push(backingInstance);
     }
-  };
-  // Event when you move an item in the list or between lists
-  onMoveHandler = (evt/**Event*/) => {
-    let item = evt.dragged, from = evt.from, to = evt.to;
-    console.log('move event');
-    // TODO: update store
   }
-  // Event on filtered selector
-  onRemoveHandler = (evt) => {
-    let item = evt.item, target = evt.target;
-    if (Sortable.utils.is(target, REMOVE_BUTTON_SELECTOR)) {  // Click on remove button
-      item.parentNode.removeChild(item); // remove sortable item
+  // dropzone overlay
+  dropzoneOverlayConstructor = (backingInstance) => {
+    if (backingInstance) {
+      let previewContainer = this.draggableContainerNode;
+      let hoverHandler = (isHover) => {
+        backingInstance.classList.remove('dimmed');
+        if (isHover) backingInstance.classList.add('dimmed');
+      };
+      let dropHandler = (files) => {
+        AppUtils.filterImageFiles(files).forEach(image => this.addNewImage(image));
+      };
+      FileAPI.event.dnd(backingInstance, hoverHandler, dropHandler);
     }
+  }
+  // extract fileinput component
+  fileInputConstructor = (backingInstance) => {
+    if (backingInstance) {
+      FileAPI.event.on(backingInstance, 'change', (evt) => {
+        let files = FileAPI.getFiles(evt); // Retrieve file list
+
+        AppUtils.filterImageFiles(files).forEach(image => this.addNewImage(image));
+        // reset file input
+        FileAPI.reset(evt.currentTarget);
+      });
+    }
+  }
+  // add new files handler
+  addNewImage = (file) => {
+    // render to container
+    let previewNode = document.createElement('div');
+    previewNode.className += "draggable-item";
+    ReactDOM.render(<DraggableItem fileReference={file} name={file.name} dragulaInstance={this.props.dragulaInstance} />, previewNode);
+    this.draggableContainerNode.appendChild(previewNode);
+
+    // upload file
+    AppUtils.uploadFile(file, previewNode);
+
     // TODO: update store
-    // TODO: delete file on server
   }
 
   render() {
     const PREFIX = AppUtils.generateRandomString();
-    let {containerData} = this.props;
+    let {itemsData} = this.props;
     return (
-      <div className="draggable-container ui dimmable" ref={this.dropzoneConstructor}>
+      <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor}>
 
-        <h2 className="draggable-container-header">{containerData.name}</h2>
+        <h2 className="draggable-container-header">{itemsData.name}</h2>
 
         <label className="upload-link" htmlFor={PREFIX + '_file'}>Upload files...</label>
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
 
-        <div className="draggable-container-items" ref={this.sortableContainerConstructor}>
-          {containerData.items.map((item, index) =>
+        <div className="draggable-container-items" ref={this.draggableContainerConstructor}>
+          {itemsData.items.map((item, index) =>
             <div className="draggable-item" key={index}>
-              <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }/>
+              <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }
+                dragulaInstance={this.props.dragulaInstance} />
             </div>
           ) }
         </div>
@@ -76,62 +93,6 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
       </div>
     );
-  }
-
-  // extract dropzone component
-  dropzoneConstructor = (componentBackingInstance) => {
-    if (componentBackingInstance) {
-      let previewContainer = this.sortableContainerElement;
-      let hoverHandler = (isHover) => {
-        componentBackingInstance.className = componentBackingInstance.className.replace(/\bdimmed\b/, '');
-        if (isHover) componentBackingInstance.className += ' dimmed';
-      };
-      let dropHandler = (files) => {
-        this.filterImageFiles(files).forEach(image => this.uploadNewFile(image));
-      };
-      FileAPI.event.dnd(componentBackingInstance, hoverHandler, dropHandler);
-    }
-  }
-
-  // extract fileinput component
-  fileInputConstructor = (componentBackingInstance) => {
-    if (componentBackingInstance) {
-      let previewContainer = this.sortableContainerElement;
-      FileAPI.event.on(componentBackingInstance, 'change', this.fileInputChangeHandler);
-    }
-  }
-
-  filterImageFiles = (files) => {
-    return files.filter((file) => /^image/.test(file.type));
-  }
-
-  uploadNewFile = (file) => {
-    // render to container
-    let item = document.createElement('div');
-    item.className += "draggable-item";
-    ReactDOM.render(<DraggableItem fileReference={file} name={file.name} />, item);
-    this.sortableContainerElement.appendChild(item);
-
-    // upload file
-    FileAPI.upload({
-      url: AppGlobals.UPLOAD_URL,
-      files: { file: file },
-      imageTransform: { type: 'image/jpeg', quality: 0.86 },
-      upload: (evt) => { console.log('upload start') },
-      progress: (evt) => { console.log('upload progress') },
-      complete: (err, xhr) => { console.log('upload done') }
-    });
-
-    // TODO: update store
-  }
-
-  // Event when selected new file with input
-  fileInputChangeHandler = (evt) => {
-    let files = FileAPI.getFiles(evt); // Retrieve file list
-
-    this.filterImageFiles(files).forEach(image => this.uploadNewFile(image));
-    // reset file input
-    FileAPI.reset(evt.currentTarget);
   }
 
 }

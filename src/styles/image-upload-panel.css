@@ -25,18 +25,22 @@
   border-bottom: 1px solid #FF7373;
 }
 .draggable-container-items {
+  z-index: 1;
+  position: relative;
   border: 1px dashed #FF7373;
   margin-top: 15px;
+  min-height: 160px;
 }
 .draggable-container-items:last-child {
   /*margin-right: 0;*/
-  min-height: 160px;
 }
 .upload-link {
   cursor: pointer;
   text-decoration: underline;
 }
 .draggable-item {
+  z-index: 2;
+  position: relative;
   cursor: move;
   display: inline-block;
   vertical-align: middle;
@@ -44,4 +48,28 @@
   border: 1px solid rgba(255, 114, 112, 0.5);
 }
 .draggable-item canvas {
+}
+
+/* dragula classes */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
 }

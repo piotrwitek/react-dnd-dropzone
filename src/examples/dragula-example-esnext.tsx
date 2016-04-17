@@ -22,7 +22,7 @@ export class DragulaExampleEsnext extends React.Component<IProps, IState> {
       let options = {
         revertOnSpill: true
       };
-      Dragula([componentBackingInstance], options)
+      var instance = Dragula([componentBackingInstance], options)
         .on('drag', function(el) {
           el.className = el.className.replace('ex-moved', '');
         }).on('over', function(el, container) {
