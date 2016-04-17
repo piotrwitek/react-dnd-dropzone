@@ -5,8 +5,7 @@ const PREVIEW_SIZE = 120;
 
 interface IProps extends React.Props<DraggableItem> {
   name: string;
-  file: any;
-  logger?: any;
+  fileReference: any;
 }
 interface IState {
 }
@@ -18,7 +17,7 @@ export class DraggableItem extends React.Component<IProps, IState> {
 
   renderPreview = (backingInstance) => {
     if (backingInstance) {
-      FileAPI.Image(this.props.file).preview(PREVIEW_SIZE).get((err, img) => {
+      FileAPI.Image(this.props.fileReference).preview(PREVIEW_SIZE).get((err, img) => {
         if (!err) {
           img.className += 'ui small image';
           backingInstance.appendChild(img);

@@ -47,6 +47,8 @@ var galleryData = [
   }
 ];
 
+// sessionStorage
+
 var logAppData = () => {
   console.log('app store data:', galleryData);
 };
@@ -77,7 +79,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   render() {
     return (
-      <ImageUploadPanel inputData={this.state.galleryData} logger={logAppData} />
+      <ImageUploadPanel inputData={this.state.galleryData} />
     );
   }
 }

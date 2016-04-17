@@ -9,8 +9,7 @@ import {FileDropzone} from './file-dropzone';
 const HANDLE_SELECTOR = '.draggable-container-header';
 
 interface IProps extends React.Props<ImageUploadPanel> {
-  logger: any;
-  inputData?: any;
+  inputData: any;
 }
 interface IState {
 }
@@ -39,7 +38,7 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
       <div className="image-upload-panel" ref={this.draggableContainersConstructor}>
         {/* <FileDropzone /> */}
         {this.props.inputData.map((containerData, index) =>
-          <DraggableContainer containerData={containerData} logger={this.props.logger} key={index} />) }
+          <DraggableContainer containerData={containerData} key={index} />) }
       </div>
     );
   }

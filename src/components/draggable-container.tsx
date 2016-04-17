@@ -10,7 +10,6 @@ const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
 
 interface IProps extends React.Props<DraggableContainer> {
-  logger: any;
   containerData: any;
 }
 interface IState {
@@ -48,26 +47,12 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     // TODO: update store
     // TODO: delete file on server
   }
-  // Event when selected new file with input
-  onAddHandler = (file) => {
-    let item = document.createElement('div');
-    item.className += "draggable-item";
-    ReactDOM.render(<DraggableItem file={file} name={file.name} />, item);
-    // append to container
-    this.sortableContainerElement.appendChild(item);
-    // TODO: update store
-  }
 
   render() {
     const PREFIX = AppUtils.generateRandomString();
     let {containerData} = this.props;
     return (
-      <div className="draggable-container">
-
-        <div id="drop-zone" class="b-dropzone" style={{ display: 'none' }}>
-          <div class="b-dropzone__bg"></div>
-          <div class="b-dropzone__txt">Drop files</div>
-        </div>
+      <div className="draggable-container ui dimmable" ref={this.dropzoneConstructor}>
 
         <h2 className="draggable-container-header">{containerData.name}</h2>
 
@@ -78,16 +63,37 @@ export class DraggableContainer extends React.Component<IProps, IState> {
         <div className="draggable-container-items" ref={this.sortableContainerConstructor}>
           {containerData.items.map((item, index) =>
             <div className="draggable-item" key={index}>
-              <DraggableItem file={item} name={item.split('/').slice(-1).pop()}  logger={this.props.logger} />
+              <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }/>
             </div>
           ) }
+        </div>
+
+        <div className="ui simple dimmer">
+          <div className="content">
+            <h2 className="center">Drop here</h2>
+          </div>
         </div>
 
       </div>
     );
   }
 
-  // extract component
+  // extract dropzone component
+  dropzoneConstructor = (componentBackingInstance) => {
+    if (componentBackingInstance) {
+      let previewContainer = this.sortableContainerElement;
+      let hoverHandler = (isHover) => {
+        componentBackingInstance.className = componentBackingInstance.className.replace(/\bdimmed\b/, '');
+        if (isHover) componentBackingInstance.className += ' dimmed';
+      };
+      let dropHandler = (files) => {
+        this.filterImageFiles(files).forEach(image => this.uploadNewFile(image));
+      };
+      FileAPI.event.dnd(componentBackingInstance, hoverHandler, dropHandler);
+    }
+  }
+
+  // extract fileinput component
   fileInputConstructor = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let previewContainer = this.sortableContainerElement;
@@ -95,22 +101,37 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     }
   }
 
+  filterImageFiles = (files) => {
+    return files.filter((file) => /^image/.test(file.type));
+  }
+
+  uploadNewFile = (file) => {
+    // render to container
+    let item = document.createElement('div');
+    item.className += "draggable-item";
+    ReactDOM.render(<DraggableItem fileReference={file} name={file.name} />, item);
+    this.sortableContainerElement.appendChild(item);
+
+    // upload file
+    FileAPI.upload({
+      url: AppGlobals.UPLOAD_URL,
+      files: { file: file },
+      imageTransform: { type: 'image/jpeg', quality: 0.86 },
+      upload: (evt) => { console.log('upload start') },
+      progress: (evt) => { console.log('upload progress') },
+      complete: (err, xhr) => { console.log('upload done') }
+    });
+
+    // TODO: update store
+  }
+
+  // Event when selected new file with input
   fileInputChangeHandler = (evt) => {
     let files = FileAPI.getFiles(evt); // Retrieve file list
-    files = files.filter((file) => /^image/.test(file.type));
-    files.forEach((file) => {
-      this.onAddHandler(file);
-      // upload file
-      FileAPI.upload({
-        url: AppGlobals.UPLOAD_URL,
-        files: { file: file },
-        imageTransform: { type: 'image/jpeg', quality: 0.86 },
-        upload: (evt) => { console.log('upload start') },
-        progress: (evt) => { console.log('upload progress') },
-        complete: (err, xhr) => { console.log('upload done') }
-      });
-    });
+
+    this.filterImageFiles(files).forEach(image => this.uploadNewFile(image));
     // reset file input
     FileAPI.reset(evt.currentTarget);
   }
+
 }

@@ -26,7 +26,7 @@ export class DropzoneContainer extends React.Component<IProps, IState> {
     let {containerData} = this.props;
     return (
       <div className="group dropzone">
-        <DraggableContainer containerData={containerData} logger={this.props.logger} />
+        <DraggableContainer containerData={containerData} />
       </div>
     );
   }
