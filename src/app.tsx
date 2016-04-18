@@ -19,18 +19,19 @@ import * as ReactDOM from 'react-dom';
 // components imports
 import {ImageUploadPanel} from './components/image-upload-panel';
 
-// type ProjectGalleryData = {
-//   roomsList: [
-//     {
-//       name: string;
-//       type: number;
-//       images: string[]
-//     }
-//   ]
-// }
+// type ProjectGalleryData = [
+//   {
+//     name: string;
+//     type: number;
+//     items: string[]
+//   }
+// ]
 
-var initialContainersData = [
+
+// sessionStorage
+var sessionStorageContainersData = [
   {
+    id: 0,
     name: 'Salon',
     type: 0,
     items: [
@@ -39,6 +40,7 @@ var initialContainersData = [
     ]
   },
   {
+    id: 1,
     name: 'Pokój 1',
     type: 0,
     items: [
@@ -46,31 +48,46 @@ var initialContainersData = [
     ]
   },
   {
+    id: 2,
     name: 'Pokój 2',
     type: 0,
     items: [
+      '/src_server/1460437027905_1925_UUQYMPG.jpg',
       '/src_server/1460437027905_1925_UUQYMPG.jpg',
       '/src_server/1460437027905_1925_UUQYMPG.jpg'
     ]
   }
 ];
+var projectContainersIndices = [0, 1];
 
-// sessionStorage
-
-var logAppData = () => {
-  console.log('app store data:', initialContainersData);
-};
+function validateStorageData(storageData, validIndices) {
+  let stashedItems = [];
+  let filteredStorageData = storageData.filter((item) => {
+    if (validIndices.includes(item.id)) {
+      return true;
+    } else {
+      stashedItems = [...stashedItems, ...item.items]
+      return false;
+    }
+  });
+  let stash = {
+    id: undefined,
+    name: 'Nie przydzielone',
+    type: 0,
+    items: stashedItems
+  }
+  return [stash, ...filteredStorageData];
+}
+var validContainersData = validateStorageData(sessionStorageContainersData, projectContainersIndices);
 
 interface AppState {
-  galleryData: any;
+  containersData: any;
 }
-
 interface AppProps extends React.Props<App> {
 }
-
 export class App extends React.Component<AppProps, AppState> {
   state: AppState = {
-    galleryData: initialContainersData
+    containersData: validContainersData
   }
 
   addItem = (item) => {
@@ -87,8 +104,8 @@ export class App extends React.Component<AppProps, AppState> {
 
   moveContainer = (startIndex, endIndex) => {
     if (startIndex == null || startIndex === endIndex) return;
-    let containersData = this.state.galleryData.slice();
-    let container = this.state.galleryData[startIndex];
+    let containersData = this.state.containersData.slice();
+    let container = this.state.containersData[startIndex];
 
     var newContainersData = endIndex > startIndex ?
       [
@@ -104,12 +121,12 @@ export class App extends React.Component<AppProps, AppState> {
       ];
 
     // console.log(newContainersData);
-    this.setState({ galleryData: newContainersData });
+    this.setState({ containersData: newContainersData });
   }
 
   render() {
     return (
-      <ImageUploadPanel containersData={this.state.galleryData} moveContainer={this.moveContainer}
+      <ImageUploadPanel containersData={this.state.containersData} moveContainer={this.moveContainer}
         addItem={this.addItem} removeItem={this.removeItem} moveItem={this.moveItem} />
     );
   }
