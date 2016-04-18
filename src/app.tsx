@@ -44,6 +44,14 @@ var initialContainersData = [
     items: [
       '/src_server/1460437027905_1925_UUQYMPG.jpg'
     ]
+  },
+  {
+    name: 'Pokój 2',
+    type: 0,
+    items: [
+      '/src_server/1460437027905_1925_UUQYMPG.jpg',
+      '/src_server/1460437027905_1925_UUQYMPG.jpg'
+    ]
   }
 ];
 
@@ -77,8 +85,26 @@ export class App extends React.Component<AppProps, AppState> {
 
   }
 
-  moveContainer = (position) => {
+  moveContainer = (startIndex, endIndex) => {
+    if (startIndex == null || startIndex === endIndex) return;
+    let containersData = this.state.galleryData.slice();
+    let container = this.state.galleryData[startIndex];
 
+    var newContainersData = endIndex > startIndex ?
+      [
+        ...containersData.slice(0, startIndex),
+        ...containersData.slice(startIndex + 1, endIndex),
+        container,
+        ...containersData.slice(endIndex)
+      ] : [
+        ...containersData.slice(0, endIndex),
+        container,
+        ...containersData.slice(endIndex, startIndex),
+        ...containersData.slice(startIndex + 1)
+      ];
+
+    // console.log(newContainersData);
+    this.setState({ galleryData: newContainersData });
   }
 
   render() {

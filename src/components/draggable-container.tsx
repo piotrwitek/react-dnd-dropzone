@@ -74,7 +74,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     const PREFIX = AppUtils.generateRandomString();
     let {index, itemsData} = this.props;
     return (
-      <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor}>
+      <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor} data-id={index}>
 
         <h2 className="draggable-container-header">{itemsData.name}</h2>
 
@@ -82,7 +82,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
 
-        <div className="draggable-container-items" data-id={index} ref={this.draggableContainerConstructor}>
+        <div className="draggable-container-items" ref={this.draggableContainerConstructor}>
           {itemsData.items.map((item, index) =>
             <div className="draggable-item" key={index} data-id={index}>
               <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }

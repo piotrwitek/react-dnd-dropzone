@@ -29,7 +29,11 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   }).on('out', (el, container) => {
     container.className = container.className.replace('ex-over', '');
   }).on('drop', (el, target, source, sibling) => {
-    console.log(el);debugger;
+    let oldIndex = parseInt(el.getAttribute('data-id'));
+    let index = sibling ? parseInt(sibling.getAttribute('data-id')) : null;
+    let sourceIndex = source.getAttribute('data-id');
+    let tergetIndex = target.getAttribute('data-id');
+    console.log(oldIndex, index);
   });
 
   draggablePanelsConstructor = (backingInstance) => {
@@ -40,6 +44,12 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
         moves: function(el, container, handle) {
           return handle.classList.contains(HANDLE_SELECTOR);
         }
+      }).on('drop', (el, target, source, sibling) => {
+        let startIndex = parseInt(el.getAttribute('data-id'));
+        let endIndex = sibling ?
+          parseInt(sibling.getAttribute('data-id')) : source.childNodes.length;
+
+        this.props.moveContainer(startIndex, endIndex);
       });
     }
   }
@@ -48,7 +58,7 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
     return (
       <div className="image-upload-panel" ref={this.draggablePanelsConstructor}>
         {this.props.containersData.map((containerData, index) =>
-          <DraggableContainer key={index} index={index} itemsData={containerData}
+          <DraggableContainer key={index + containerData.name} index={index} itemsData={containerData}
             addItem={this.props.addItem} removeItem={this.props.removeItem} moveItem={this.props.moveItem}
             dragulaInstance={this.dragulaInstance} />) }
       </div>
