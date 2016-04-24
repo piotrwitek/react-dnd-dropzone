@@ -32,6 +32,8 @@
     "app-globals.tsx",
     "app-utils.tsx",
     "app.tsx",
+    "components/draggable-container-list.tsx",
+    "components/draggable-container-store.tsx",
     "components/draggable-container.tsx",
     "components/draggable-item.tsx",
     "components/file-dropzone.tsx",
