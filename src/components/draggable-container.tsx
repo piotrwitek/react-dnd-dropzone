@@ -10,6 +10,8 @@ import {DraggableContainerStore} from './draggable-container-store';
 
 const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
+const PLACEHOLDER_IMAGE = '/placeholder-image';
+const FAILED_UPLOAD_IMAGE = '/failed-upload-image';
 
 interface IProps extends React.Props<DraggableContainer> {
   dragulaInstance: any;
@@ -57,14 +59,20 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   }
   // add new files handler
   addNewImage = (fileObject) => {
+    let index = this.props.containerStore.state[this.props.containerIndex].items.length;
     let previewImageContainer = document.createElement('div');
+    let component = <DraggableItem dragulaInstance={this.props.dragulaInstance}
+      itemReference={fileObject} itemName={fileObject.name}
+      removeHandler={ () => {
+        this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex)
+      } } />;
+    ReactDOM.render(component, previewImageContainer);
 
     let uploadStart = () => {
       console.log('upload start');
-      let index = this.draggableContainerNode.childNodes.length;
+      this.props.containerStore.addItemToContainer(PLACEHOLDER_IMAGE, index, this.props.containerIndex);
       previewImageContainer.className = "draggable-item draggable-item-loading";
       previewImageContainer.setAttribute('data-id', index.toString());
-      ReactDOM.render(<DraggableItem itemReference={fileObject} itemName={fileObject.name} dragulaInstance={this.props.dragulaInstance} removeHandler={ () => { this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex) } } />, previewImageContainer);
       this.draggableContainerNode.appendChild(previewImageContainer);
     };
 
@@ -74,12 +82,13 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
       previewImageContainer.classList.remove('draggable-item-loading');
       // update store
-      filesNames.forEach((fileName) => this.props.containerStore.addItemToContainer(fileName, this.props.containerIndex));
+      filesNames.forEach((fileName) => this.props.containerStore.addItemToContainer(fileName, index, this.props.containerIndex));
     };
 
     let uploadError = (err) => {
       previewImageContainer.classList.add('draggable-item-error');
       // TODO: show failure indicator in preview container
+      this.props.containerStore.addItemToContainer(FAILED_UPLOAD_IMAGE, index, this.props.containerIndex);
     };
 
     // upload file

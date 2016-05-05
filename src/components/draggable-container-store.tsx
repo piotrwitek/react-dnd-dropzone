@@ -42,15 +42,15 @@ export class DraggableContainerStore {
     return newState;
   }
 
-  addItemToContainer = (item, containerIndex) => {
+  addItemToContainer = (item, itemIndex, containerIndex) => {
     let storeState = this.state.slice();
     if (item == undefined || containerIndex == undefined) return storeState;
 
-    let targetContainerItems = storeState[containerIndex].items;
     let newItem = UPLOAD_PATH + item;
-    storeState[containerIndex].items = [...targetContainerItems, newItem];
+    storeState[containerIndex].items[itemIndex] = newItem;
+    let newStoreState = storeState;
 
-    this.setState(storeState);
+    this.setState(newStoreState);
     return storeState;
   }
 
@@ -58,8 +58,8 @@ export class DraggableContainerStore {
     let storeState = this.state.slice();
     if (itemIndex == undefined || containerIndex == undefined) return storeState;
 
-    let targetContainerItems = storeState[containerIndex].items;
-    storeState[containerIndex].items = [...targetContainerItems, UPLOAD_PATH + itemIndex];
+    delete storeState[containerIndex].items[itemIndex];
+    let newStoreState = storeState;
 
     this.setState(storeState);
     // TODO: delete file on server
