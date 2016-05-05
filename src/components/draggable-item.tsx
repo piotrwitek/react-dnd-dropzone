@@ -4,9 +4,10 @@ import FileAPI from 'fileapi';
 const PREVIEW_SIZE = 120;
 
 interface IProps extends React.Props<DraggableItem> {
-  name: string;
-  fileReference: any;
+  itemName: string;
+  itemReference: any;
   dragulaInstance: any;
+  removeHandler: any;
 }
 interface IState {
 }
@@ -21,15 +22,13 @@ export class DraggableItem extends React.Component<IProps, IState> {
   handleRemove = () => {
     this.props.dragulaInstance.start(this.componentRootNode);
     this.props.dragulaInstance.remove();
-    // TODO: update store
-
-    // TODO: delete file on server
-    // fetch(delete:images/id)
+    // update store
+    this.props.removeHandler();
   }
 
   renderPreview = (backingInstance) => {
     if (backingInstance) {
-      FileAPI.Image(this.props.fileReference).preview(PREVIEW_SIZE).get((err, img) => {
+      FileAPI.Image(this.props.itemReference).preview(PREVIEW_SIZE).get((err, img) => {
         if (!err) {
           img.className += 'ui small image';
           backingInstance.appendChild(img);
@@ -39,7 +38,7 @@ export class DraggableItem extends React.Component<IProps, IState> {
   }
 
   render() {
-    let {name} = this.props;
+    let {itemName} = this.props;
     return (
       <div className="ui dimmable" ref={this.componentRootNode}>
         <div ref={this.renderPreview}></div>

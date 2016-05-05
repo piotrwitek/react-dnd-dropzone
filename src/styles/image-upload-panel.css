@@ -18,8 +18,10 @@
   margin-right: 5px;
   background-color: #fff;
 }
-.draggable-container-header {
+.draggable-container-handle {
   cursor: move;
+}
+.draggable-container-header {
   text-align: center;
   padding-bottom: 5px;
   border-bottom: 1px solid #FF7373;
@@ -46,6 +48,12 @@
   vertical-align: middle;
   margin: .25rem;
   border: 1px solid rgba(255, 114, 112, 0.5);
+}
+.draggable-item-loading > div {
+  opacity: 0.5;
+}
+.draggable-item-error {
+  background-color: red;
 }
 .draggable-item canvas {
 }

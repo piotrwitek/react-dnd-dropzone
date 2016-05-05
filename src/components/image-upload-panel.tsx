@@ -1,7 +1,8 @@
 import '../styles/image-upload-panel.css!';
 import * as React from 'react';
+import * as AppModels from '../app-models';
 import {DraggableContainerList} from './draggable-container-list';
-import {DraggableContainerStore, ContainerModel} from './draggable-container-store';
+import {DraggableContainerStore} from './draggable-container-store';
 
 interface IState {
   draggableContainerStore: DraggableContainerStore;
@@ -15,10 +16,13 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
     draggableContainerStore: new DraggableContainerStore()
   }
 
+  componentDidMount() {
+  }
+
   componentDidUpdate() {
   }
 
-  validateStoreData(storeState: ContainerModel[], validIndices) {
+  validateStoreData(storeState: AppModels.ContainerModel[], validIndices) {
     let stashedItems = [];
     let filteredStoreState = storeState.filter((item) => {
       if (validIndices.includes(item.id)) {
@@ -38,11 +42,11 @@ export class ImageUploadPanel extends React.Component<IProps, IState> {
   }
 
   render() {
-    let store = this.state.draggableContainerStore;
-    let newStoreState = this.validateStoreData(store.state, this.props.roomsIndices)
-    store.setState(newStoreState);
+    let localStore = this.state.draggableContainerStore;
+    let newStoreState = this.validateStoreData(localStore.state, this.props.roomsIndices)
+    localStore.setState(newStoreState);
     return (
-      <DraggableContainerList store={store} />
+      <DraggableContainerList store={localStore} />
     );
   }
 }

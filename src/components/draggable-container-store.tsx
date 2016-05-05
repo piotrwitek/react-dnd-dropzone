@@ -1,9 +1,6 @@
-export type ContainerModel = {
-  id: number;
-  name: string;
-  type: number;
-  items: string[]
-}
+import * as AppModels from '../app-models';
+
+const UPLOAD_PATH = '/src_server/uploads/';
 
 // sessionStorage
 var initialStoreState = [
@@ -37,27 +34,46 @@ var initialStoreState = [
 ];
 
 export class DraggableContainerStore {
-  state: ContainerModel[] = initialStoreState;
+  state: AppModels.ContainerModel[] = initialStoreState;
 
-  setState = (newState: ContainerModel[]): ContainerModel[] => {
-    return this.state = newState;
+  setState = (newState: AppModels.ContainerModel[]): AppModels.ContainerModel[] => {
+    this.state = newState;
+    // console.log('set store: ', newState);
+    return newState;
   }
 
-  addItem = (item) => {
+  addItemToContainer = (item, containerIndex) => {
+    let storeState = this.state.slice();
+    if (item == undefined || containerIndex == undefined) return storeState;
 
+    let targetContainerItems = storeState[containerIndex].items;
+    let newItem = UPLOAD_PATH + item;
+    storeState[containerIndex].items = [...targetContainerItems, newItem];
+
+    this.setState(storeState);
+    return storeState;
   }
 
-  removeItem = (item) => {
+  removeItemFromContainer = (itemIndex, containerIndex) => {
+    let storeState = this.state.slice();
+    if (itemIndex == undefined || containerIndex == undefined) return storeState;
 
+    let targetContainerItems = storeState[containerIndex].items;
+    storeState[containerIndex].items = [...targetContainerItems, UPLOAD_PATH + itemIndex];
+
+    this.setState(storeState);
+    // TODO: delete file on server
+    // fetch(delete:images/id)
+    return storeState;
   }
 
-  moveItem = (item) => {
+  moveItemInContainer = (startIndex, endIndex, containerIndex) => {
 
   }
 
   moveContainer = (startIndex, endIndex) => {
     let storeState = this.state.slice();
-    if (startIndex == null || startIndex === endIndex) return storeState;
+    if (startIndex == undefined || startIndex === endIndex) return storeState;
 
     let targetContainer = this.state[startIndex];
     var newStoreState = endIndex > startIndex ?
@@ -73,8 +89,8 @@ export class DraggableContainerStore {
         ...storeState.slice(startIndex + 1)
       ];
 
-    // console.log(newContainersData);
-    return this.setState(newStoreState);
+    this.setState(newStoreState);
+    return newStoreState;
   }
 
 }

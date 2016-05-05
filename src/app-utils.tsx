@@ -1,5 +1,5 @@
 import FileAPI from 'fileapi';
-export const UPLOAD_URL = 'http://localhost:3000/uploadHandler';
+import * as AppGlobals from './app-globals';
 
 export function generateRandomString(length = 10) {
   let text = "";
@@ -16,13 +16,23 @@ export function filterImageFiles(files) {
   return files.filter((file) => /^image/.test(file.type));
 }
 
-export function uploadFile(file, previewNode) {
+export function uploadFile(file, startCallback, successCallback, errorCallback) {
   FileAPI.upload({
-    url: UPLOAD_URL,
+    url: AppGlobals.UPLOAD_URL,
     files: { file: file },
     imageTransform: { type: 'image/jpeg', quality: 0.86 },
-    upload: (evt) => { console.log('upload start') },
-    progress: (evt) => { console.log('upload progress') },
-    complete: (err, xhr) => { console.log('upload done') }
+    upload: (xhr) => {
+      startCallback()
+    },
+    progress: (evt) => {
+      // console.log('upload progress', evt)
+    },
+    complete: (err, xhr) => {
+      if (err) {
+        errorCallback(err)
+        return;
+      }
+      successCallback(xhr);
+    }
   });
 }

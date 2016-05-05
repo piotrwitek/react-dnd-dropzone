@@ -1,13 +1,12 @@
 import * as React from 'react';
 import Dragula from 'react-dragula';
 
+import * as AppGlobals from '../app-globals';
 import {DraggableContainer} from './draggable-container';
-// import {FileDropzone} from './file-dropzone';
-
-const HANDLE_SELECTOR = 'draggable-container-header';
+import {DraggableContainerStore} from './draggable-container-store';
 
 interface IProps extends React.Props<DraggableContainerList> {
-  store: any;
+  store: DraggableContainerStore;
 }
 interface IState {
 }
@@ -36,24 +35,32 @@ export class DraggableContainerList extends React.Component<IProps, IState> {
         revertOnSpill: true,
         direction: 'vertical',
         moves: function(el, container, handle) {
-          return handle.classList.contains(HANDLE_SELECTOR);
+          return handle.classList.contains(AppGlobals.HANDLE_SELECTOR);
         }
       }).on('drop', (el, target, source, sibling) => {
         let startIndex = parseInt(el.getAttribute('data-id'));
-        let endIndex = sibling ?
-          parseInt(sibling.getAttribute('data-id')) : source.childNodes.length;
+        let endIndex = sibling != undefined
+          ? parseInt(sibling.getAttribute('data-id')) : source.childNodes.length;
 
         this.props.store.moveContainer(startIndex, endIndex);
       });
     }
   }
 
+  componentDidMount() {
+  }
+
+  componentDidUpdate() {
+    console.log(this.props.store.state);
+  }
+
   render() {
     return (
       <div className="image-upload-panel" ref={this.draggablePanelsConstructor}>
-        {this.props.store.state.map((containerData, index) =>
-          <DraggableContainer key={index + containerData.name} index={index} itemsData={containerData}
-            addItem={this.props.store.addItem} removeItem={this.props.store.removeItem} moveItem={this.props.store.moveItem}
+        { this.props.store.state.map((containerData, index) =>
+          <DraggableContainer key={index + containerData.name}
+            containerIndex={index} containerData={containerData}
+            containerStore={this.props.store}
             dragulaInstance={this.dragulaInstance} />) }
       </div>
     );

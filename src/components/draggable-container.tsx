@@ -2,19 +2,20 @@ import * as React from "react";
 import * as ReactDOM from 'react-dom';
 import Dragula from 'react-dragula';
 import FileAPI from 'fileapi';
+import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
+import * as AppModels from '../app-models';
 import {DraggableItem} from './draggable-item';
+import {DraggableContainerStore} from './draggable-container-store';
 
 const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
 
 interface IProps extends React.Props<DraggableContainer> {
   dragulaInstance: any;
-  index: any;
-  itemsData: any;
-  addItem: any;
-  removeItem: any;
-  moveItem: any;
+  containerIndex: number;
+  containerData: AppModels.ContainerModel;
+  containerStore: DraggableContainerStore;
 }
 interface IState {
 }
@@ -31,62 +32,83 @@ export class DraggableContainer extends React.Component<IProps, IState> {
   // dropzone overlay
   dropzoneOverlayConstructor = (backingInstance) => {
     if (backingInstance) {
-      let previewContainer = this.draggableContainerNode;
-      let hoverHandler = (isHover) => {
+      // let previewContainer = this.draggableContainerNode;
+      let dropzoneHoverHandler = (isHover) => {
         backingInstance.classList.remove('dimmed');
         if (isHover) backingInstance.classList.add('dimmed');
       };
-      let dropHandler = (files) => {
-        AppUtils.filterImageFiles(files).forEach(image => this.addNewImage(image));
+      let dropzoneDropHandler = (fileObjects) => {
+        AppUtils.filterImageFiles(fileObjects).forEach(imageObject => this.addNewImage(imageObject));
       };
-      FileAPI.event.dnd(backingInstance, hoverHandler, dropHandler);
+      FileAPI.event.dnd(backingInstance, dropzoneHoverHandler, dropzoneDropHandler);
     }
   }
   // TODO: extract fileinput component
   fileInputConstructor = (backingInstance) => {
     if (backingInstance) {
       FileAPI.event.on(backingInstance, 'change', (evt) => {
-        let files = FileAPI.getFiles(evt); // Retrieve file list
+        let fileObjects = FileAPI.getFiles(evt); // Retrieve file list
 
-        AppUtils.filterImageFiles(files).forEach(image => this.addNewImage(image));
+        AppUtils.filterImageFiles(fileObjects).forEach(imageObject => this.addNewImage(imageObject));
         // reset file input
         FileAPI.reset(evt.currentTarget);
       });
     }
   }
   // add new files handler
-  addNewImage = (file) => {
-    // render to container
-    let index = this.draggableContainerNode.childNodes.length;
-    let previewNode = document.createElement('div');
-    previewNode.className += "draggable-item";
-    previewNode.setAttribute('data-id', index.toString());
-    ReactDOM.render(<DraggableItem fileReference={file} name={file.name} dragulaInstance={this.props.dragulaInstance} />, previewNode);
-    this.draggableContainerNode.appendChild(previewNode);
+  addNewImage = (fileObject) => {
+    let previewImageContainer = document.createElement('div');
+
+    let uploadStart = () => {
+      console.log('upload start');
+      let index = this.draggableContainerNode.childNodes.length;
+      previewImageContainer.className = "draggable-item draggable-item-loading";
+      previewImageContainer.setAttribute('data-id', index.toString());
+      ReactDOM.render(<DraggableItem itemReference={fileObject} itemName={fileObject.name} dragulaInstance={this.props.dragulaInstance} removeHandler={ () => { this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex) } } />, previewImageContainer);
+      this.draggableContainerNode.appendChild(previewImageContainer);
+    };
+
+    let uploadSuccess = (xhr) => {
+      let url = xhr.options.url;
+      let filesNames = JSON.parse(xhr.response);
+
+      previewImageContainer.classList.remove('draggable-item-loading');
+      // update store
+      filesNames.forEach((fileName) => this.props.containerStore.addItemToContainer(fileName, this.props.containerIndex));
+    };
+
+    let uploadError = (err) => {
+      previewImageContainer.classList.add('draggable-item-error');
+      // TODO: show failure indicator in preview container
+    };
 
     // upload file
-    AppUtils.uploadFile(file, previewNode);
+    AppUtils.uploadFile(fileObject, uploadStart, uploadSuccess, uploadError);
+  }
 
-    // TODO: update store
+  componentDidMount() {
   }
 
   render() {
     const PREFIX = AppUtils.generateRandomString();
-    let {index, itemsData} = this.props;
+    let {containerIndex, containerData} = this.props;
+    let handleSelector = ' ' + (containerData.id != undefined ? AppGlobals.HANDLE_SELECTOR : '');
     return (
-      <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor} data-id={index}>
+      <div className="draggable-container ui dimmable" ref={this.dropzoneOverlayConstructor} data-id={containerIndex}>
 
-        <h2 className="draggable-container-header">{itemsData.name}</h2>
+        <h2 className={`draggable-container-header${handleSelector}`}>
+          {containerData.name}</h2>
 
         <label className="upload-link" htmlFor={PREFIX + '_file'}>Upload files...</label>
         <input id={PREFIX + '_file'} name="files" type="file" accept="image/*" multiple
           style={{ display: 'none' }} ref={this.fileInputConstructor} />
 
         <div className="draggable-container-items" ref={this.draggableContainerConstructor}>
-          {itemsData.items.map((item, index) =>
+          { containerData.items.map((item, index) =>
             <div className="draggable-item" key={index} data-id={index}>
-              <DraggableItem fileReference={item} name={item.split('/').slice(-1).pop() }
-                dragulaInstance={this.props.dragulaInstance} />
+              <DraggableItem itemReference={item} itemName={item.split('/').slice(-1).pop() }
+                dragulaInstance={this.props.dragulaInstance}
+                removeHandler={ () => { this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex) } } />
             </div>
           ) }
         </div>

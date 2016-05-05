@@ -33,7 +33,7 @@ SystemJS.config({
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
     "clean-css": "npm:clean-css@3.4.12",
     "core-js": "npm:core-js@1.2.6",
-    "css": "github:systemjs/plugin-css@0.1.20",
+    "css": "github:systemjs/plugin-css@0.1.21",
     "domain": "github:jspm/nodelibs-domain@0.2.0-alpha",
     "dropzone": "npm:dropzone@4.3.0",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
@@ -45,15 +45,16 @@ SystemJS.config({
     "net": "github:jspm/nodelibs-net@0.2.0-alpha",
     "os": "github:jspm/nodelibs-os@0.2.0-alpha",
     "path": "github:jspm/nodelibs-path@0.2.0-alpha",
-    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.5",
+    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.8",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
-    "react": "npm:react@15.0.1",
-    "react-dom": "npm:react-dom@15.0.1",
+    "react": "npm:react@15.0.2",
+    "react-dom": "npm:react-dom@15.0.2",
     "react-dragula": "npm:react-dragula@1.1.15",
+    "readline": "github:jspm/nodelibs-readline@0.2.0-alpha",
     "sortablejs": "npm:sortablejs@1.4.2",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
-    "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.6",
+    "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.8",
     "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
     "url": "github:jspm/nodelibs-url@0.2.0-alpha",
     "util": "github:jspm/nodelibs-util@0.2.0-alpha",
@@ -61,21 +62,21 @@ SystemJS.config({
     "zlib": "github:jspm/nodelibs-zlib@0.2.0-alpha"
   },
   packages: {
-    "github:capaj/systemjs-hot-reloader@0.5.6": {
+    "github:capaj/systemjs-hot-reloader@0.5.8": {
       "map": {
         "debug": "npm:debug@2.2.0",
-        "socket.io-client": "github:socketio/socket.io-client@1.4.5",
+        "socket.io-client": "github:socketio/socket.io-client@1.4.6",
         "weakee": "npm:weakee@1.0.0"
       }
     },
-    "github:frankwallis/plugin-typescript@4.0.5": {
+    "github:frankwallis/plugin-typescript@4.0.8": {
       "map": {
-        "typescript": "npm:typescript@1.8.9"
+        "typescript": "npm:typescript@1.8.10"
       }
     },
     "github:jspm/nodelibs-buffer@0.2.0-alpha": {
       "map": {
-        "buffer-browserify": "npm:buffer@4.5.1"
+        "buffer-browserify": "npm:buffer@4.6.0"
       }
     },
     "github:jspm/nodelibs-domain@0.2.0-alpha": {
@@ -85,7 +86,7 @@ SystemJS.config({
     },
     "github:jspm/nodelibs-http@0.2.0-alpha": {
       "map": {
-        "http-browserify": "npm:stream-http@2.2.1"
+        "http-browserify": "npm:stream-http@2.3.0"
       }
     },
     "github:jspm/nodelibs-os@0.2.0-alpha": {
@@ -113,18 +114,23 @@ SystemJS.config({
         "zlib-browserify": "npm:browserify-zlib@0.1.4"
       }
     },
-    "npm:babel-plugin-syntax-flow@6.5.0": {
+    "npm:babel-plugin-syntax-flow@6.8.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.38"
+        "babel-runtime": "npm:babel-runtime@6.6.1"
+      }
+    },
+    "npm:babel-runtime@6.6.1": {
+      "map": {
+        "core-js": "npm:core-js@2.3.0"
       }
     },
     "npm:browserify-zlib@0.1.4": {
       "map": {
         "pako": "npm:pako@0.2.8",
-        "readable-stream": "npm:readable-stream@2.0.6"
+        "readable-stream": "npm:readable-stream@2.1.2"
       }
     },
-    "npm:buffer@4.5.1": {
+    "npm:buffer@4.6.0": {
       "map": {
         "base64-js": "npm:base64-js@1.1.2",
         "ieee754": "npm:ieee754@1.1.6",
@@ -169,9 +175,9 @@ SystemJS.config({
         "iconv-lite": "npm:iconv-lite@0.4.13"
       }
     },
-    "npm:fbjs@0.8.0": {
+    "npm:fbjs@0.8.1": {
       "map": {
-        "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@6.5.0",
+        "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@6.8.0",
         "core-js": "npm:core-js@1.2.6",
         "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
         "loose-envify": "npm:loose-envify@1.1.0",
@@ -181,7 +187,7 @@ SystemJS.config({
     },
     "npm:isomorphic-fetch@2.2.1": {
       "map": {
-        "node-fetch": "npm:node-fetch@1.5.0",
+        "node-fetch": "npm:node-fetch@1.5.1",
         "whatwg-fetch": "npm:whatwg-fetch@0.11.0"
       }
     },
@@ -190,10 +196,10 @@ SystemJS.config({
         "js-tokens": "npm:js-tokens@1.0.3"
       }
     },
-    "npm:node-fetch@1.5.0": {
+    "npm:node-fetch@1.5.1": {
       "map": {
         "encoding": "npm:encoding@0.1.12",
-        "is-stream": "npm:is-stream@1.0.1"
+        "is-stream": "npm:is-stream@1.1.0"
       }
     },
     "npm:promise@7.1.1": {
@@ -207,14 +213,14 @@ SystemJS.config({
         "dragula": "npm:dragula@3.6.8"
       }
     },
-    "npm:react@15.0.1": {
+    "npm:react@15.0.2": {
       "map": {
-        "fbjs": "npm:fbjs@0.8.0",
+        "fbjs": "npm:fbjs@0.8.1",
         "loose-envify": "npm:loose-envify@1.1.0",
-        "object-assign": "npm:object-assign@4.0.1"
+        "object-assign": "npm:object-assign@4.1.0"
       }
     },
-    "npm:readable-stream@2.0.6": {
+    "npm:readable-stream@2.1.2": {
       "map": {
         "core-util-is": "npm:core-util-is@1.0.2",
         "inherits": "npm:inherits@2.0.1",
@@ -232,13 +238,14 @@ SystemJS.config({
     "npm:stream-browserify@2.0.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.0.6"
+        "readable-stream": "npm:readable-stream@2.1.2"
       }
     },
-    "npm:stream-http@2.2.1": {
+    "npm:stream-http@2.3.0": {
       "map": {
         "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
         "inherits": "npm:inherits@2.0.1",
+        "readable-stream": "npm:readable-stream@2.1.2",
         "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
         "xtend": "npm:xtend@4.0.1"
       }

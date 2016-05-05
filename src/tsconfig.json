@@ -30,6 +30,7 @@
     "../typings/main.d.ts",
     "typings.d.ts",
     "app-globals.tsx",
+    "app-models.tsx",
     "app-utils.tsx",
     "app.tsx",
     "components/draggable-container-list.tsx",

@@ -51,6 +51,8 @@ app.use(function*(next) {
   // .field holds all the fields in key/value form
   console.log(parts.field._csrf);
 
+  let response = [];
+
   try {
     while (part = yield parts) {
       let fileName = `${Date.now()}_${Math.floor(Math.random()*1000000)}.jpg`;
@@ -61,9 +63,11 @@ app.use(function*(next) {
         let stream = fs.createWriteStream(writePath);
         part.pipe(stream);
         console.log('uploading: %s -> %s', part.filename, stream.path);
+        response.push(path.basename(stream.path));
       }
     }
     this.status = 200;
+    this.body = response;
   } catch (exception) {
     console.log(exception);
     this.status = 500;
