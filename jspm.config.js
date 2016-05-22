@@ -41,15 +41,16 @@ SystemJS.config({
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
     "http": "github:jspm/nodelibs-http@0.2.0-alpha",
     "https": "github:jspm/nodelibs-https@0.2.0-alpha",
+    "mobx": "npm:mobx@2.1.7",
     "module": "github:jspm/nodelibs-module@0.2.0-alpha",
     "net": "github:jspm/nodelibs-net@0.2.0-alpha",
     "os": "github:jspm/nodelibs-os@0.2.0-alpha",
     "path": "github:jspm/nodelibs-path@0.2.0-alpha",
-    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.8",
+    "plugin-typescript": "github:frankwallis/plugin-typescript@4.0.16",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
-    "react": "npm:react@15.0.2",
-    "react-dom": "npm:react-dom@15.0.2",
-    "react-dragula": "npm:react-dragula@1.1.15",
+    "react": "npm:react@15.1.0",
+    "react-dom": "npm:react-dom@15.1.0",
+    "react-dragula": "npm:react-dragula@1.1.16",
     "readline": "github:jspm/nodelibs-readline@0.2.0-alpha",
     "sortablejs": "npm:sortablejs@1.4.2",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
@@ -58,7 +59,7 @@ SystemJS.config({
     "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
     "url": "github:jspm/nodelibs-url@0.2.0-alpha",
     "util": "github:jspm/nodelibs-util@0.2.0-alpha",
-    "whatwg-fetch": "npm:whatwg-fetch@0.11.0",
+    "whatwg-fetch": "npm:whatwg-fetch@0.11.1",
     "zlib": "github:jspm/nodelibs-zlib@0.2.0-alpha"
   },
   packages: {
@@ -69,7 +70,7 @@ SystemJS.config({
         "weakee": "npm:weakee@1.0.0"
       }
     },
-    "github:frankwallis/plugin-typescript@4.0.8": {
+    "github:frankwallis/plugin-typescript@4.0.16": {
       "map": {
         "typescript": "npm:typescript@1.8.10"
       }
@@ -114,20 +115,10 @@ SystemJS.config({
         "zlib-browserify": "npm:browserify-zlib@0.1.4"
       }
     },
-    "npm:babel-plugin-syntax-flow@6.8.0": {
-      "map": {
-        "babel-runtime": "npm:babel-runtime@6.6.1"
-      }
-    },
-    "npm:babel-runtime@6.6.1": {
-      "map": {
-        "core-js": "npm:core-js@2.3.0"
-      }
-    },
     "npm:browserify-zlib@0.1.4": {
       "map": {
         "pako": "npm:pako@0.2.8",
-        "readable-stream": "npm:readable-stream@2.1.2"
+        "readable-stream": "npm:readable-stream@2.1.4"
       }
     },
     "npm:buffer@4.6.0": {
@@ -148,10 +139,10 @@ SystemJS.config({
         "graceful-readlink": "npm:graceful-readlink@1.0.1"
       }
     },
-    "npm:contra@1.9.1": {
+    "npm:contra@1.9.4": {
       "map": {
         "atoa": "npm:atoa@1.0.0",
-        "ticky": "npm:ticky@1.0.0"
+        "ticky": "npm:ticky@1.0.1"
       }
     },
     "npm:crossvent@1.5.4": {
@@ -164,9 +155,9 @@ SystemJS.config({
         "ms": "npm:ms@0.7.1"
       }
     },
-    "npm:dragula@3.6.8": {
+    "npm:dragula@3.7.1": {
       "map": {
-        "contra": "npm:contra@1.9.1",
+        "contra": "npm:contra@1.9.4",
         "crossvent": "npm:crossvent@1.5.4"
       }
     },
@@ -175,28 +166,27 @@ SystemJS.config({
         "iconv-lite": "npm:iconv-lite@0.4.13"
       }
     },
-    "npm:fbjs@0.8.1": {
+    "npm:fbjs@0.8.2": {
       "map": {
-        "babel-plugin-syntax-flow": "npm:babel-plugin-syntax-flow@6.8.0",
         "core-js": "npm:core-js@1.2.6",
         "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
-        "loose-envify": "npm:loose-envify@1.1.0",
+        "loose-envify": "npm:loose-envify@1.2.0",
         "promise": "npm:promise@7.1.1",
         "ua-parser-js": "npm:ua-parser-js@0.7.10"
       }
     },
     "npm:isomorphic-fetch@2.2.1": {
       "map": {
-        "node-fetch": "npm:node-fetch@1.5.1",
-        "whatwg-fetch": "npm:whatwg-fetch@0.11.0"
+        "node-fetch": "npm:node-fetch@1.5.2",
+        "whatwg-fetch": "npm:whatwg-fetch@0.11.1"
       }
     },
-    "npm:loose-envify@1.1.0": {
+    "npm:loose-envify@1.2.0": {
       "map": {
         "js-tokens": "npm:js-tokens@1.0.3"
       }
     },
-    "npm:node-fetch@1.5.1": {
+    "npm:node-fetch@1.5.2": {
       "map": {
         "encoding": "npm:encoding@0.1.12",
         "is-stream": "npm:is-stream@1.1.0"
@@ -204,28 +194,29 @@ SystemJS.config({
     },
     "npm:promise@7.1.1": {
       "map": {
-        "asap": "npm:asap@2.0.3"
+        "asap": "npm:asap@2.0.4"
       }
     },
-    "npm:react-dragula@1.1.15": {
+    "npm:react-dragula@1.1.16": {
       "map": {
         "atoa": "npm:atoa@1.0.0",
-        "dragula": "npm:dragula@3.6.8"
+        "dragula": "npm:dragula@3.7.1"
       }
     },
-    "npm:react@15.0.2": {
+    "npm:react@15.1.0": {
       "map": {
-        "fbjs": "npm:fbjs@0.8.1",
-        "loose-envify": "npm:loose-envify@1.1.0",
+        "fbjs": "npm:fbjs@0.8.2",
+        "loose-envify": "npm:loose-envify@1.2.0",
         "object-assign": "npm:object-assign@4.1.0"
       }
     },
-    "npm:readable-stream@2.1.2": {
+    "npm:readable-stream@2.1.4": {
       "map": {
+        "buffer-shims": "npm:buffer-shims@1.0.0",
         "core-util-is": "npm:core-util-is@1.0.2",
         "inherits": "npm:inherits@2.0.1",
         "isarray": "npm:isarray@1.0.0",
-        "process-nextick-args": "npm:process-nextick-args@1.0.6",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7",
         "string_decoder": "npm:string_decoder@0.10.31",
         "util-deprecate": "npm:util-deprecate@1.0.2"
       }
@@ -238,14 +229,14 @@ SystemJS.config({
     "npm:stream-browserify@2.0.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.1.2"
+        "readable-stream": "npm:readable-stream@2.1.4"
       }
     },
     "npm:stream-http@2.3.0": {
       "map": {
         "builtin-status-codes": "npm:builtin-status-codes@2.0.0",
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.1.2",
+        "readable-stream": "npm:readable-stream@2.1.4",
         "to-arraybuffer": "npm:to-arraybuffer@1.0.1",
         "xtend": "npm:xtend@4.0.1"
       }

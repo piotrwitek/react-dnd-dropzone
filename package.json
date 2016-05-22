@@ -9,9 +9,8 @@
   "homepage": "https://github.com/piotrwitek/react-dnd-dropzone",
   "bugs": "https://github.com/piotrwitek/react-dnd-dropzone/issues",
   "scripts": {
-    "start": "start npm run server && start npm run hot-reloader",
+    "start": "start npm run server",
     "server": "node ./src_server/server.js",
-    "hot-reloader": "node ./node_modules/chokidar-socket-emitter/cli.js --port 35729",
     "postinstall": "npm run install-jspm && npm run install-typings",
     "install-jspm": "./node_modules/.bin/jspm install",
     "install-typings": "./node_modules/.bin/typings install",
@@ -20,9 +19,9 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "chokidar-socket-emitter": "^0.5.1",
+    "chokidar-socket-emitter": "^0.5.2",
     "co-busboy": "^1.3.1",
-    "jspm": "^0.17.0-beta.12",
+    "jspm": "^0.17.0-beta.14",
     "koa": "^1.2.0",
     "koa-logger": "^1.3.0",
     "koa-static": "^2.0.0",
@@ -33,26 +32,26 @@
     "dependencies": {
       "dropzone": "npm:dropzone@^4.3.0",
       "fileapi": "npm:fileapi@^2.0.20",
-      "react": "npm:react@^15.0.2",
+      "mobx": "npm:mobx@^2.1.6",
+      "react": "npm:react@^15.1.0",
       "react-dom": "npm:react-dom@^15.0.2",
       "react-dragula": "npm:react-dragula@^1.1.15",
       "sortablejs": "npm:sortablejs@^1.4.2",
       "whatwg-fetch": "npm:whatwg-fetch@^0.11.0"
     },
     "devDependencies": {
-      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
       "css": "github:systemjs/plugin-css@^0.1.21",
       "clean-css": "npm:clean-css@^3.4.12",
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
       "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
       "plugin-typescript": "github:frankwallis/plugin-typescript@^4.0.8",
-      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
       "readline": "github:jspm/nodelibs-readline@^0.2.0-alpha",
       "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.8"
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
       "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
       "core-js": "npm:core-js@^1.2.0",
       "domain": "github:jspm/nodelibs-domain@^0.2.0-alpha",
@@ -61,6 +60,7 @@
       "https": "github:jspm/nodelibs-https@^0.2.0-alpha",
       "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
       "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
       "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
@@ -82,10 +82,7 @@
         "ignore": [
           "test.js"
         ]
-      },
-      "npm:whatwg-fetch@0.11.0": {
-        "jspmNodeConversion": false
       }
     }
   }
-}
+}

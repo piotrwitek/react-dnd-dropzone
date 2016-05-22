@@ -37,9 +37,9 @@
     "components/draggable-container-store.tsx",
     "components/draggable-container.tsx",
     "components/draggable-item.tsx",
-    "components/file-dropzone.tsx",
     "components/image-upload-panel.tsx",
     "examples/dragula-example-esnext.tsx",
+    "examples/file-dropzone-example.tsx",
     "examples/sortable-example-esnext.tsx"
   ],
   "atom": {

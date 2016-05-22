@@ -1,3 +1,4 @@
+// import 'systemjs-hot-reloader/default-listener.js';
 // enable hot-reloader
 export function __reload(prev) {
   if (prev.app.state)

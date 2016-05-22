@@ -23,13 +23,13 @@ const template = ReactDOMServer.renderToStaticMarkup(
   </div>
 );
 
-interface IProps extends React.Props<FileDropzone> {
+interface IProps extends React.Props<FileDropzoneExample> {
   data?: any;
 }
 interface IState {
 }
 
-export class FileDropzone extends React.Component<IProps, IState> {
+export class FileDropzoneExample extends React.Component<IProps, IState> {
   dropzoneInstance = undefined;
 
   dropzoneConstructor = (componentBackingInstance) => {

@@ -10,14 +10,18 @@ const parse = require('co-busboy');
 
 const rootPath = path.join(__dirname, '..');
 const app = koa();
+
+require('chokidar-socket-emitter')({port: 35729});
+
 // logging
 //app.use(logger());
+// TODO: add routing for delete and upload
 
 // redirect to homepage
 app.use(function*(next) {
   yield next;
   if (this.body || !this.idempotent) return;
-  console.log('error this:', this);
+  console.log('>>> ERROR:\n', this);
   //this.redirect(path.join('/src/'));
 });
 
@@ -73,7 +77,6 @@ app.use(function*(next) {
     this.status = 500;
   }
 });
-
 
 app.listen(3000);
 console.log('listening on port 3000');
