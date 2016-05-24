@@ -21,14 +21,12 @@
     "noFallthroughCasesInSwitch": true
   },
   "filesGlob": [
-    "../typings/main.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "!node_modules/**"
   ],
   "files": [
-    "../typings/main.d.ts",
-    "typings.d.ts",
+    "app-typings.d.ts",
     "app-globals.tsx",
     "app-models.tsx",
     "app-utils.tsx",
