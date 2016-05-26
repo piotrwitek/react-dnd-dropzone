@@ -32,7 +32,8 @@
     "dependencies": {
       "dropzone": "npm:dropzone@^4.3.0",
       "fileapi": "npm:fileapi@^2.0.20",
-      "mobx": "npm:mobx@^2.1.6",
+      "mobx": "npm:mobx@^2.2.0",
+      "mobx-react": "npm:mobx-react@^3.3.0",
       "node-uuid": "npm:node-uuid@^1.4.7",
       "react": "npm:react@^15.1.0",
       "react-dom": "npm:react-dom@^15.0.2",

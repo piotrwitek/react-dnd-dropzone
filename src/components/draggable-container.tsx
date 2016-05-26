@@ -1,12 +1,13 @@
 import * as React from "react";
 import * as ReactDOM from 'react-dom';
+import {observer} from 'mobx-react';
 import Dragula from 'react-dragula';
 import FileAPI from 'fileapi';
 import * as AppGlobals from '../app-globals';
 import * as AppUtils from '../app-utils';
 import * as AppModels from '../app-models';
 import {DraggableItem} from './draggable-item';
-import {DraggableContainerStore} from './draggable-container-store';
+import {DraggableContainerStore, DraggableContainerModel} from './draggable-container-store';
 
 const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
@@ -16,12 +17,13 @@ const FAILED_UPLOAD_IMAGE = '/failed-upload-image';
 interface IProps extends React.Props<DraggableContainer> {
   dragulaInstance: any;
   containerIndex: number;
-  containerData: AppModels.ContainerModel;
+  containerData: DraggableContainerModel;
   containerStore: DraggableContainerStore;
 }
 interface IState {
 }
 
+@observer
 export class DraggableContainer extends React.Component<IProps, IState> {
   draggableContainerNode: undefined;
   // items container
@@ -62,7 +64,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     let index = this.props.containerStore.state[this.props.containerIndex].items.length;
     let previewImageContainer = document.createElement('div');
     let component = <DraggableItem dragulaInstance={this.props.dragulaInstance}
-      itemReference={fileObject} itemName={fileObject.name}
+      itemReference={fileObject}
       removeHandler={ () => {
         this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex)
       } } />;
@@ -95,7 +97,8 @@ export class DraggableContainer extends React.Component<IProps, IState> {
     AppUtils.uploadFile(fileObject, uploadStart, uploadSuccess, uploadError);
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
+    // console.log(this.props.containerData);
   }
 
   render() {
@@ -114,8 +117,8 @@ export class DraggableContainer extends React.Component<IProps, IState> {
 
         <div className="draggable-container-items" ref={this.draggableContainerConstructor}>
           { containerData.items.map((item, index) =>
-            <div className="draggable-item" key={index} data-id={index}>
-              <DraggableItem itemReference={item} itemName={item.split('/').slice(-1).pop() }
+            <div className="draggable-item" key={item.id} data-id={index}>
+              <DraggableItem itemReference={item}
                 dragulaInstance={this.props.dragulaInstance}
                 removeHandler={ () => { this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex) } } />
             </div>

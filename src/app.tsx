@@ -20,6 +20,6 @@ import * as ReactDOM from 'react-dom';
 // components imports
 import {ImageUploadPanel} from './components/image-upload-panel';
 
-var projectRoomsIndices = [0, 1];
+var projectRoomsIndices = ['0', '1'];
 
 export var app: any = ReactDOM.render(<ImageUploadPanel visible={true} roomsIndices={projectRoomsIndices} />, document.getElementById('app-container'));
