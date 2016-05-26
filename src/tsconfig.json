@@ -26,7 +26,8 @@
     "!node_modules/**"
   ],
   "files": [
-    "app-typings.d.ts",
+    "typings/app-typings.d.ts",
+    "typings/lib.es2016.array.include.d.ts",
     "app-globals.tsx",
     "app-models.tsx",
     "app-utils.tsx",
