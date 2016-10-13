@@ -11,8 +11,6 @@ import {DraggableContainerStore, DraggableContainerModel} from './draggable-cont
 
 const ANIMATION_SPEED = 300;
 const REMOVE_BUTTON_SELECTOR = '.remove-item';
-const PLACEHOLDER_IMAGE = '/placeholder-image';
-const FAILED_UPLOAD_IMAGE = '/failed-upload-image';
 
 interface IProps extends React.Props<DraggableContainer> {
   dragulaInstance: any;
@@ -42,7 +40,7 @@ export class DraggableContainer extends React.Component<IProps, IState> {
         if (isHover) backingInstance.classList.add('dimmed');
       };
       let dropzoneDropHandler = (fileObjects) => {
-        AppUtils.filterImageFiles(fileObjects).forEach(imageObject => this.addNewImage(imageObject));
+        AppUtils.filterImageFiles(fileObjects).forEach(imageFileObject => this.uploadFileHandler(imageFileObject));
       };
       FileAPI.event.dnd(backingInstance, dropzoneHoverHandler, dropzoneDropHandler);
     }
@@ -53,48 +51,15 @@ export class DraggableContainer extends React.Component<IProps, IState> {
       FileAPI.event.on(backingInstance, 'change', (evt) => {
         let fileObjects = FileAPI.getFiles(evt); // Retrieve file list
 
-        AppUtils.filterImageFiles(fileObjects).forEach(imageObject => this.addNewImage(imageObject));
+        AppUtils.filterImageFiles(fileObjects).forEach(imageFileObject => this.uploadFileHandler(imageFileObject));
         // reset file input
         FileAPI.reset(evt.currentTarget);
       });
     }
   }
   // add new files handler
-  addNewImage = (fileObject) => {
-    let index = this.props.containerStore.state[this.props.containerIndex].items.length;
-    let previewImageContainer = document.createElement('div');
-    let component = <DraggableItem dragulaInstance={this.props.dragulaInstance}
-      itemReference={fileObject}
-      removeHandler={ () => {
-        this.props.containerStore.removeItemFromContainer(index, this.props.containerIndex)
-      } } />;
-    ReactDOM.render(component, previewImageContainer);
-
-    let uploadStart = () => {
-      console.log('upload start');
-      this.props.containerStore.addItemToContainer(PLACEHOLDER_IMAGE, index, this.props.containerIndex);
-      previewImageContainer.className = "draggable-item draggable-item-loading";
-      previewImageContainer.setAttribute('data-id', index.toString());
-      this.draggableContainerNode.appendChild(previewImageContainer);
-    };
-
-    let uploadSuccess = (xhr) => {
-      let url = xhr.options.url;
-      let filesNames = JSON.parse(xhr.response);
-
-      previewImageContainer.classList.remove('draggable-item-loading');
-      // update store
-      filesNames.forEach((fileName) => this.props.containerStore.addItemToContainer(fileName, index, this.props.containerIndex));
-    };
-
-    let uploadError = (err) => {
-      previewImageContainer.classList.add('draggable-item-error');
-      // TODO: show failure indicator in preview container
-      this.props.containerStore.addItemToContainer(FAILED_UPLOAD_IMAGE, index, this.props.containerIndex);
-    };
-
-    // upload file
-    AppUtils.uploadFile(fileObject, uploadStart, uploadSuccess, uploadError);
+  uploadFileHandler = (fileObject) => {
+    this.props.containerStore.addItemToContainer(fileObject, this.props.containerIndex);
   }
 
   componentDidUpdate() {

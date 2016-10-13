@@ -26,10 +26,10 @@ export class DraggableContainerList extends React.Component<IProps, IState> {
     let oldIndex = parseInt(el.getAttribute('data-id'));
     let newIndex = sibling != undefined
       ? parseInt(sibling.getAttribute('data-id')) : source.childNodes.length;
-    let sourceIndex = parseInt(source.parentNode.getAttribute('data-id'));
-    let targetIndex = parseInt(target.parentNode.getAttribute('data-id'));
-    console.log(oldIndex, newIndex, sourceIndex, targetIndex);
-    this.props.store.moveItemBetweenContainers(oldIndex, newIndex, sourceIndex, targetIndex);
+    let sourceContainerIndex = parseInt(source.parentNode.getAttribute('data-id'));
+    let targetContainerIndex = parseInt(target.parentNode.getAttribute('data-id'));
+    console.log('item', oldIndex, newIndex, 'container', sourceContainerIndex, targetContainerIndex);
+    this.props.store.moveItemBetweenContainers(oldIndex, newIndex, sourceContainerIndex, targetContainerIndex);
     // this.forceUpdate();
   });
 

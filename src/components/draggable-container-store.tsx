@@ -1,6 +1,7 @@
 import {observable, autorun} from 'mobx';
 import uuid from 'node-uuid';
 import * as AppModels from '../app-models';
+import * as AppUtils from '../app-utils';
 
 const UPLOAD_PATH = '/src_server/uploads/';
 
@@ -13,13 +14,36 @@ export class DraggableContainerStore {
     return newState;
   }
 
-  addItemToContainer = (itemName, itemIndex, containerIndex) => {
+  addItemToContainer = (fileObject, containerIndex) => {
     let newStoreState = this.state.slice();
-    if (itemName == undefined || containerIndex == undefined) return null;
+    if (fileObject == undefined || containerIndex == undefined) return null;
 
-    let newItem = new DraggableItemModel(UPLOAD_PATH + itemName);
-    newStoreState[containerIndex].items[itemIndex] = newItem;
+    let newItem = new DraggableItemModel(fileObject);
+    newStoreState[containerIndex].items.push(newItem);
     this.setState(newStoreState);
+
+
+    let uploadStart = () => {
+      console.log('upload start');
+      // show loading indicator
+      newItem.isLoading = true;
+    };
+
+    let uploadSuccess = (xhr) => {
+      console.log('upload success');
+      let url = xhr.options.url;
+      let filesNames = JSON.parse(xhr.response);
+      newItem.isLoading = false;
+    };
+
+    let uploadError = (err) => {
+      console.log('upload failed');
+      // show failure indicator
+      newItem.isLoading = false;
+      newItem.isFailed = true;
+    };
+    // upload file
+    AppUtils.uploadFile(fileObject, uploadStart, uploadSuccess, uploadError);
 
     return newItem;
   }
@@ -28,7 +52,8 @@ export class DraggableContainerStore {
     let newStoreState = this.state.slice();
     if (itemIndex == undefined || containerIndex == undefined) return null;
 
-    delete newStoreState[containerIndex].items[itemIndex];
+    let container = newStoreState[containerIndex];
+    container.items = container.items.filter((item, index) => index !== itemIndex);
     this.setState(newStoreState);
     // TODO: delete file on server
     // fetch(delete:images/id)
@@ -60,12 +85,14 @@ export class DraggableContainerStore {
         ];
     } else {
       let sourceContainerItems = storeState[sourceContainerIndex].items;
+      let item = sourceContainerItems.splice(oldIndex, 1);
       let targetContainerItems = storeState[targetContainerIndex].items;
+      targetContainerItems.splice(newIndex, 0, ...item);
+      console.log(storeState);
     }
 
-    let newStoreState = storeState;
-    this.setState(newStoreState);
-    return newStoreState;
+    this.setState(storeState);
+    return storeState;
   }
 
   moveContainer = (oldIndex, newIndex) => {
@@ -107,7 +134,9 @@ export class DraggableContainerModel {
 
 export class DraggableItemModel {
   id: string;
-  src: string;
+  src: string | File;
+  @observable isLoading: boolean = false;
+  @observable isFailed: boolean = false;
   constructor(src: string) {
     this.id = uuid.v1();
     this.src = src;

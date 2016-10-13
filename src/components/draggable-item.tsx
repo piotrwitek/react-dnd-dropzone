@@ -2,11 +2,14 @@ import * as React from "react";
 import * as ReactDOM from 'react-dom';
 import {observer} from 'mobx-react';
 import FileAPI from 'fileapi';
+import {DraggableItemModel} from './draggable-container-store';
 
 const PREVIEW_SIZE = 120;
+const UPLOAD_STARTED_IMAGE = '/placeholder-image';
+const UPLOAD_FAILED_IMAGE = '/failed-upload-image';
 
 interface IProps extends React.Props<DraggableItem> {
-  itemReference: any;
+  itemReference: DraggableItemModel;
   dragulaInstance: any;
   removeHandler: any;
 }
@@ -23,11 +26,8 @@ export class DraggableItem extends React.Component<IProps, IState> {
   }
 
   handleRemove = () => {
-    this.props.dragulaInstance.start(this.componentRootNode);
-    this.props.dragulaInstance.remove();
     // update store
     this.props.removeHandler();
-    ReactDOM.unmountComponentAtNode(this.componentRootNode.parentNode);
   }
 
   renderPreview = (backingInstance) => {
@@ -42,16 +42,23 @@ export class DraggableItem extends React.Component<IProps, IState> {
   }
 
   componentDidUpdate() {
-    console.log('item update', this.componentRootNode);
+    // console.log('item update', this.componentRootNode);
   }
 
   componentWillUnmount() {
-    console.log('item unmount', this.componentRootNode);
+    // console.log('item unmount', this.componentRootNode);
+  }
+
+  getFileName = (stringOrFile) => {
+    if (stringOrFile == undefined) return 'No Name';
+
+    return (typeof stringOrFile === 'string')
+    ? stringOrFile.split('/').slice(-1).pop()
+    : stringOrFile.name;
   }
 
   render() {
-    let src = this.props.itemReference.src;
-    let fileName = src ? src.split('/').slice(-1).pop() : null;
+    let fileName = this.getFileName(this.props.itemReference.src);
 
     return (
       <div className="ui dimmable" ref={this.getComponentRootNode}>
